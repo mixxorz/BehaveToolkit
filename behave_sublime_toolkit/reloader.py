@@ -13,7 +13,9 @@ mods_load_order = [
     '',
 
     '.commands',
-    '.commands.hello'
+    '.commands.hello',
+    '.commands.log',
+    '.commands.run_scenario'
 ]
 
 for suffix in mods_load_order:
