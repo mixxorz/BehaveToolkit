@@ -9,3 +9,7 @@ Feature: Test Scenarios
     Given a second thing
     When a second thing happens
     Then a second thing should happen
+
+  Scenario: Failing scen
+    Given a third thing
+    Then it will fail

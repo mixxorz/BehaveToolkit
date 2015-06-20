@@ -21,6 +21,7 @@ class BstRunScenario(sublime_plugin.TextCommand, OutputPanelMixin):
 
         behave = os.path.join(os.path.dirname(python), 'behave')
         args.append(behave)
+        args.append('--no-skipped')
 
         if 'gherkin' in self.view.scope_name(0):
             current_file = self.view.file_name()
@@ -35,7 +36,7 @@ class BstRunScenario(sublime_plugin.TextCommand, OutputPanelMixin):
                               bufsize=1,
                               universal_newlines=True,
                               cwd=self.view.window().folders()[0]) as p:
-            for line in p.stdout:
-                self.append(edit, line, end='')
 
-            self.append(edit, 'Exit code: %d' % p.wait())
+            self.erase()
+            for line in p.stdout:
+                self.append(line, end='')
