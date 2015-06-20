@@ -12,9 +12,9 @@ mod_prefix = 'BehaveSublimeToolkit.behave_sublime_toolkit'
 mods_load_order = [
     '',
 
+    '.behave_command',
+
     '.commands',
-    '.commands.hello',
-    '.commands.log',
     '.commands.run_scenario',
 
     '.utils',

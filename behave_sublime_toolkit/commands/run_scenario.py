@@ -5,10 +5,10 @@ import subprocess
 
 import sublime_plugin
 
-from ..utils.log import OutputPanelMixin
+from ..behave_command import BehaveCommand
 
 
-class BstRunScenario(sublime_plugin.TextCommand, OutputPanelMixin):
+class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
 
     '''
     Runs the behave scenario under the cursor
@@ -22,25 +22,8 @@ class BstRunScenario(sublime_plugin.TextCommand, OutputPanelMixin):
     '''
 
     def run(self, edit, **kwargs):
-        args = []
 
-        self.python = self.view.settings().get('python_interpreter', 'python')
-        self.behave = os.path.join(os.path.dirname(self.python), 'behave')
-
-        args = [self.python,
-                self.behave,
-                '--no-skipped',
-                ] + self._get_tests_part()
-
-        with subprocess.Popen(args,
-                              stdout=subprocess.PIPE,
-                              bufsize=1,
-                              universal_newlines=True,
-                              cwd=self.view.window().folders()[0]) as p:
-
-            self.erase()
-            for line in p.stdout:
-                self.append(line, end='')
+        self.behave('--no-skipped', *self._get_tests_part(), output=True)
 
     def _get_tests_part(self):
         '''
@@ -60,19 +43,10 @@ class BstRunScenario(sublime_plugin.TextCommand, OutputPanelMixin):
         # TODO: Extract this to a behave API wrapper
         # Gets JSON information about the current feature file
         # via the 'json' behave formatter
-        args = [self.python, self.behave, current_file, '-d',
-                '-f', 'json', '--no-summary', '--no-snippets']
 
-        json_output = ''
-
-        with subprocess.Popen(args,
-                              stdout=subprocess.PIPE,
-                              bufsize=1,
-                              universal_newlines=True,
-                              cwd=self.view.window().folders()[0]) as p:
-
-            for line in p.stdout:
-                json_output += line
+        json_output = self.behave(current_file, '-d',
+                                  '-f', 'json', '--no-summary',
+                                  '--no-snippets')
 
         output = json.loads(json_output)
 
