@@ -1,6 +1,7 @@
 import json
 import re
 
+import sublime
 import sublime_plugin
 
 from ..behave_command import BehaveCommand
@@ -20,7 +21,9 @@ class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
     '''
 
     def run(self, edit, **kwargs):
+        sublime.set_timeout_async(self.run_async, 0)
 
+    def run_async(self):
         self.behave('--no-skipped', *self._get_tests_part(), output=True)
 
     def _get_tests_part(self):
