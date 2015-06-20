@@ -15,10 +15,16 @@ mods_load_order = [
     '.commands',
     '.commands.hello',
     '.commands.log',
-    '.commands.run_scenario'
+    '.commands.run_scenario',
+
+    '.utils',
+    '.utils.log'
 ]
 
 for suffix in mods_load_order:
     mod = mod_prefix + suffix
     if mod in reload_mods:
-        reload(sys.modules[mod])
+        try:
+            reload(sys.modules[mod])
+        except (ImportError):
+            pass

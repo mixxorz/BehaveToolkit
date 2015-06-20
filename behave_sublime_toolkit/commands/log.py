@@ -11,10 +11,9 @@ class BstDisplayPanel(sublime_plugin.TextCommand):
     active window, and display the `msg` contents there.
     '''
 
-    def run(self, edit, msg=''):
-        panel_view = self.view.window().create_output_panel(PANEL_NAME)
+    def run(self, panel_view, edit, msg=''):
         panel_view.set_read_only(False)
-        panel_view.erase(edit, sublime.Region(0, panel_view.size()))
+        # panel_view.erase(edit, sublime.Region(0, panel_view.size()))
         panel_view.insert(edit, 0, msg)
         panel_view.set_read_only(True)
         panel_view.show(0)
