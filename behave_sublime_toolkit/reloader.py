@@ -15,6 +15,7 @@ mods_load_order = [
     '.behave_command',
 
     '.commands',
+    '.commands.highlight_undefined_steps',
     '.commands.run_scenario',
 
     '.utils',
