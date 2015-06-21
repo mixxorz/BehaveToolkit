@@ -1,6 +1,7 @@
 from collections import namedtuple
 import re
 
+import sublime
 import sublime_plugin
 
 from ..behave_command import BehaveCommand
@@ -9,10 +10,16 @@ from ..behave_command import BehaveCommand
 class BstHighlightUndefinedSteps(sublime_plugin.TextCommand, BehaveCommand):
 
     '''
-    Highlights undefined steps in a feature file
+    Highlights undefined steps in a feature file.
+
+    This command uses the 'steps.usage' format and parses its output to
+    get the undefined steps.
     '''
 
     def run(self, edit, **kwargs):
+        sublime.set_timeout_async(self.run_async, 0)
+
+    def run_async(self):
 
         output = self.behave('--dry-run',
                              '--format',
@@ -24,6 +31,7 @@ class BstHighlightUndefinedSteps(sublime_plugin.TextCommand, BehaveCommand):
         if offset != -1:
             output = output[offset:]
 
+            # TODO: Improve this regex for better step name matching
             p = re.compile('^\s\s([\w+\s"]+)\s*#\s(.*):(\d+)$', re.MULTILINE)
 
             matched_set = re.findall(p, output)

@@ -18,6 +18,9 @@ mods_load_order = [
     '.commands.highlight_undefined_steps',
     '.commands.run_scenario',
 
+    '.listeners',
+    '.listeners.linting',
+
     '.utils',
     '.utils.log'
 ]

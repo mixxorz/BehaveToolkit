@@ -23,3 +23,6 @@ Feature: Test Scenarios
     | name  | age |
     | Mitch | 21  |
     Then third thing
+    And it will fail
+    And the fourth thing
+    And the fifth thing
