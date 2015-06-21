@@ -32,11 +32,11 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         self.selected_steps = self._get_selected_steps()
 
         # TODO: Should sort by most recently selected
-        self.step_directories = self._get_step_directories()
+        self.step_file_paths = self._get_step_file_paths()
         items = [['Create a new file',
                   'Creates a new file with the step definition.']]
         items += [[os.path.basename(dir), dir]
-                  for dir in self.step_directories]
+                  for dir in self.step_file_paths]
 
         self.view.window().show_quick_panel(items,
                                             self.on_select_action)
@@ -68,7 +68,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             # The paths are relative to the project root
             file_directory = os.path.join(
                 current_root,
-                self.step_directories[directory_index])
+                self.step_file_paths[directory_index])
             view = self.view.window().open_file(file_directory)
 
             # Append snippet to the view
@@ -106,7 +106,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             # Select the appended text
             view.sel().add(sublime.Region(initial_view_size, view.size()))
 
-    def _get_step_directories(self):
+    def _get_step_file_paths(self):
         '''
         Get the path of the step files used by behave.
         '''
@@ -121,15 +121,15 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         matched_set = re.findall(p, output)
 
-        step_directories = list(set(matched_set))
+        step_file_paths = list(set(matched_set))
 
         # Since all the directories returned by behave are relative to the
         # project root, anything that starts with '..' is outside the project's
         # scope. We don't want to list those
-        step_directories = [
-            dir for dir in step_directories if not dir[:2] == '..']
+        step_file_paths = [
+            dir for dir in step_file_paths if not dir[:2] == '..']
 
-        return step_directories
+        return step_file_paths
 
     def _get_selected_steps(self):
         '''
