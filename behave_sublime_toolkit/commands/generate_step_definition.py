@@ -1,3 +1,5 @@
+from collections import namedtuple
+import json
 import os
 import re
 
@@ -10,8 +12,8 @@ from ..behave_command import BehaveCommand
 class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
     def run(self, edit, **kwargs):
-        self.snippet = self._generate_snippet(
-            '\n\nI AM SOME STEP ==========================')
+
+        self.selected_steps = self._get_selected_steps()
 
         # TODO: Should sort by most recently selected
         self.step_directories = self._get_step_directories()
@@ -44,11 +46,28 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         sublime.set_timeout(lambda: self._append_snippet(view), 10)
 
     def _append_snippet(self, view):
+        # TODO: This is quite dangerous, maybe we should change this
         if view.is_loading():
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
         else:
-            view.run_command('append', {'characters': self.snippet,
-                                        'scroll_to_end': True})
+            print(self.selected_steps)
+            # view.run_command('append', {'characters': self.snippet,
+            #                             'scroll_to_end': True})
+
+    def _get_steps(self, output):
+        steps = set()
+
+        Step = namedtuple('Step', ['step_type', 'name', 'keyword', 'location'])
+
+        for feature in output:
+            for element in feature['elements']:
+                for step in element['steps']:
+                    steps.add(Step(step['step_type'],
+                                   step['name'],
+                                   step['keyword'],
+                                   step['location']))
+
+        return steps
 
     def _get_step_directories(self):
         # TODO: Should not include files that are outside the project's scope
@@ -66,5 +85,36 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         return step_directories
 
-    def _generate_snippet(self, step):
-        return step
+    def _get_selected_steps(self):
+        current_root = self.view.window().folders()[0]
+        current_file = self.view.file_name()
+
+        # Convert to relative path
+        current_file = os.path.relpath(current_file, current_root)
+
+        json_output = self.behave(current_file, '--dry-run',
+                                  '--format', 'json', '--no-summary',
+                                  '--no-snippets')
+
+        output = json.loads(json_output)
+
+        steps = self._get_steps(output)
+
+        Step = namedtuple('Step', ['step_type', 'name', 'keyword'])
+
+        selected_steps = set()
+
+        # Find the steps under the cursors
+        for selection in self.view.sel():
+            current_line_number = self.view.rowcol(selection.begin())[0] + 1
+
+            location = '%s:%d' % (current_file, current_line_number)
+
+            for step in steps:
+                if step.location == location:
+                    selected_steps.add(Step(step.step_type,
+                                            step.name,
+                                            step.keyword))
+                    break
+
+        return selected_steps
