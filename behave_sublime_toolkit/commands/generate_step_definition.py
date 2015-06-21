@@ -80,7 +80,6 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         Python and add behave imports
         '''
 
-        # TODO: This is quite dangerous, maybe we should change this
         if view.is_loading():
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
         else:
@@ -112,7 +111,6 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         Get the path of the step files used by behave.
         '''
 
-        # TODO: Should not include files that are outside the project's scope
         output = self.behave('--dry-run',
                              '--format',
                              'steps.doc',
@@ -124,6 +122,12 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         matched_set = re.findall(p, output)
 
         step_directories = list(set(matched_set))
+
+        # Since all the directories returned by behave are relative to the
+        # project root, anything that starts with '..' is outside the project's
+        # scope. We don't want to list those
+        step_directories = [
+            dir for dir in step_directories if not dir[:2] == '..']
 
         return step_directories
 
