@@ -58,12 +58,15 @@ class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
         # Extract the line number of the first scenario
         m = re.search(':(\d+)', first_scenario_location)
         line_number = int(m.group(1))
+        # The line number returned is aligned to the first step. So we subtract
+        # 1
+        line_number -= 1
 
         for selection in self.view.sel():
             current_line_number = self.view.rowcol(selection.begin())[0] + 1
 
             # If the cursor is below the first scenario, run a scenario
-            if current_line_number > line_number:
+            if current_line_number >= line_number:
                 tests.append('%s:%s' % (current_file, current_line_number))
 
             # If the cursor is above, run the feature
