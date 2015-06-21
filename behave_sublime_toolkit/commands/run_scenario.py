@@ -41,7 +41,6 @@ class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
         tests = []
         current_file = self.view.file_name()
 
-        # TODO: Extract this to a behave API wrapper
         # Gets JSON information about the current feature file
         # via the 'json' behave formatter
 
