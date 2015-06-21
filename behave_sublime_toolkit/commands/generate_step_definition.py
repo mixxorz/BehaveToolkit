@@ -19,6 +19,10 @@ def ${func}(context):
 
 class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
+    '''
+    Generates step definition(s) for steps under the cursor(s).
+    '''
+
     def run(self, edit, **kwargs):
 
         # Selected steps is a set of Steps that were under the cursors
@@ -35,6 +39,10 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                                             self.on_select_action)
 
     def on_select_action(self, selected_index):
+        '''
+        Triggers on select from quick panel.
+        '''
+
         if selected_index == -1:
             return
 
@@ -62,6 +70,10 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         sublime.set_timeout(lambda: self._append_snippet(view), 10)
 
     def _append_snippet(self, view):
+        '''
+        Append snippet to the chosen file
+        '''
+
         # TODO: This is quite dangerous, maybe we should change this
         if view.is_loading():
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
@@ -81,22 +93,11 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
             view.sel().add(sublime.Region(initial_view_size, view.size()))
 
-    def _get_steps(self, output):
-        steps = set()
-
-        Step = namedtuple('Step', ['step_type', 'name', 'keyword', 'location'])
-
-        for feature in output:
-            for element in feature['elements']:
-                for step in element['steps']:
-                    steps.add(Step(step['step_type'],
-                                   step['name'],
-                                   step['keyword'],
-                                   step['location']))
-
-        return steps
-
     def _get_step_directories(self):
+        '''
+        Get the path of the step files used by behave.
+        '''
+
         # TODO: Should not include files that are outside the project's scope
         output = self.behave('--dry-run',
                              '--format',
@@ -113,21 +114,31 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         return step_directories
 
     def _get_selected_steps(self):
+        '''
+        Get steps under the cursors as a set of namedtuples.
+
+        The tuple is defined as:
+        Step = namedtuple('Step', ['step_type', 'name'])
+        '''
+
         current_root = self.view.window().folders()[0]
-        current_file = self.view.file_name()
+        current_file = os.path.relpath(self.view.file_name(), current_root)
 
-        # Convert to relative path
-        current_file = os.path.relpath(current_file, current_root)
-
+        # Query behave for step information
         json_output = self.behave(current_file, '--dry-run',
                                   '--format', 'json', '--no-summary',
                                   '--no-snippets')
-
         output = json.loads(json_output)
 
-        steps = self._get_steps(output)
+        # Get all the steps
+        all_steps = []
 
-        Step = namedtuple('Step', ['step_type', 'name', 'keyword'])
+        for feature in output:
+            for element in feature['elements']:
+                for step in element['steps']:
+                    all_steps.append(step)
+
+        Step = namedtuple('Step', ['step_type', 'name'])
 
         selected_steps = set()
 
@@ -135,13 +146,13 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         for selection in self.view.sel():
             current_line_number = self.view.rowcol(selection.begin())[0] + 1
 
+            # Use the location to find the matching step
+            # (e.g. features/toolkit.feature:4)
             location = '%s:%d' % (current_file, current_line_number)
 
-            for step in steps:
-                if step.location == location:
-                    selected_steps.add(Step(step.step_type,
-                                            step.name,
-                                            step.keyword))
+            for step in all_steps:
+                if step['location'] == location:
+                    selected_steps.add(Step(step['step_type'], step['name']))
                     break
 
         return selected_steps
