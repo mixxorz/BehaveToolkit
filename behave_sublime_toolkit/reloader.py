@@ -28,6 +28,7 @@ mods_load_order = [
 
     '.utils',
     '.utils.log'
+    '.utils.text'
 ]
 
 for suffix in mods_load_order:

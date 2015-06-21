@@ -7,6 +7,7 @@ import sublime
 import sublime_plugin
 
 from ..behave_command import BehaveCommand
+from ..utils.text import snake_caseify
 
 
 STEP_SNIPPET = '''
@@ -106,7 +107,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                     STEP_SNIPPET,
                     {'type': step.step_type,
                      'name': step.name,
-                     'func': step.name.lower().replace('"', '')
+                     'func': snake_caseify(step.name)
                      .replace(' ', '_')})
 
                 snippet_buffer += snippet
