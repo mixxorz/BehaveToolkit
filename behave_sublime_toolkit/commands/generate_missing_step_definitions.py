@@ -11,4 +11,9 @@ class BstGenerateMissingStepDefinitions(sublime_plugin.TextCommand,
         sublime.set_timeout_async(self.run_async, 0)
 
     def run_async(self):
-        pass
+
+        undefined_steps = self.get_undefined_steps()
+
+        self.view.run_command(
+            'bst_generate_step_definition',
+            {'line_numbers': [step.line for step in undefined_steps]})

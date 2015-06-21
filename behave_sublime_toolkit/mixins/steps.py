@@ -38,7 +38,7 @@ class StepsMixin(object):
             Step = namedtuple('Step', ['name', 'path', 'line'])
 
             for match in matched_set:
-                step = Step(match[0].strip(), match[1], match[2])
+                step = Step(match[0].strip(), match[1], int(match[2]))
 
                 undefined_steps.append(step)
 
