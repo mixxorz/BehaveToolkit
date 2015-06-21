@@ -1,10 +1,12 @@
 import os
 import subprocess
 
+from .mixins.steps import StepsMixin
 from .utils.log import OutputPanelMixin
 
 
-class BehaveCommand(OutputPanelMixin):
+class BehaveCommand(OutputPanelMixin,
+                    StepsMixin):
 
     '''
     Base class for all Sublime commands that interact with behave

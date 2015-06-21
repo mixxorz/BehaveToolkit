@@ -15,12 +15,16 @@ mods_load_order = [
     '.behave_command',
 
     '.commands',
+    '.commands.generate_missing_step_definitions',
     '.commands.generate_step_definition',
     '.commands.highlight_undefined_steps',
     '.commands.run_scenario',
 
     '.listeners',
     '.listeners.linting',
+
+    '.mixins',
+    '.mixins.steps',
 
     '.utils',
     '.utils.log'
