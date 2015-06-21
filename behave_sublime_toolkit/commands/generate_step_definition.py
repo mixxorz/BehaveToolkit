@@ -25,8 +25,13 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
     def on_select_action(self, selected_index):
         # Create new file
-        if selected_index == 0:
-            pass
+        if selected_index == -1:
+            return
+        elif selected_index == 0:
+            view = self.view.window().new_file()
+
+            # TODO: Add behave imports to the new file (by editing the snippet
+            # maybe)
         # Select existing file
         else:
             # Subtract one to account for the "Create file" item
@@ -35,11 +40,15 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             view = self.view.window().open_file(
                 self.step_directories[directory_index])
 
-            sublime.set_timeout(lambda: self._append_snippet(view), 10)
+        # Append snippet to the view
+        sublime.set_timeout(lambda: self._append_snippet(view), 10)
 
     def _append_snippet(self, view):
-        view.run_command('append', {'characters': self.snippet,
-                                    'scroll_to_end': True})
+        if view.is_loading():
+            sublime.set_timeout(lambda: self._append_snippet(view), 10)
+        else:
+            view.run_command('append', {'characters': self.snippet,
+                                        'scroll_to_end': True})
 
     def _get_step_directories(self):
         # TODO: Should not include files that are outside the project's scope
