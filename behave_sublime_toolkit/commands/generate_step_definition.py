@@ -98,7 +98,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
             # If it's a new file, add the behave imports
             if new:
-                snippet_buffer += 'from behave import given, when, then\n'
+                snippet_buffer += 'from behave import given, when, then\n\n'
             else:
                 snippet_buffer += '\n'
 
@@ -107,8 +107,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                     STEP_SNIPPET,
                     {'type': step.step_type,
                      'name': step.name,
-                     'func': snake_caseify(step.name)
-                     .replace(' ', '_')})
+                     'func': snake_caseify(step.name)})
 
                 snippet_buffer += snippet
 
