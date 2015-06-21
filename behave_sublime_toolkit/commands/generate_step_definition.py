@@ -23,10 +23,20 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
     Generates step definition(s) for steps under the cursor(s).
     '''
 
-    def run(self, edit, **kwargs):
-        sublime.set_timeout_async(self.run_async, 0)
+    def run(self, edit, line_numbers=None):
+        sublime.set_timeout_async(
+            lambda: self.run_async(line_numbers=line_numbers))
 
-    def run_async(self):
+    def run_async(self, line_numbers):
+        # Set line_numbers of the steps we're generating
+        self.line_numbers = line_numbers
+
+        # If nothing was passed in, load it from the current view
+        if not self.line_numbers:
+            self.line_numbers = []
+            for region in self.view.sel():
+                self.line_numbers.append(
+                    self.view.rowcol(region.begin())[0] + 1)
 
         # Selected steps is a set of Steps that were under the cursors
         self.selected_steps = self._get_selected_steps()
@@ -161,12 +171,11 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         selected_steps = set()
 
         # Find the steps under the cursors
-        for selection in self.view.sel():
-            current_line_number = self.view.rowcol(selection.begin())[0] + 1
+        for line_number in self.line_numbers:
 
             # Use the location to find the matching step
             # (e.g. features/toolkit.feature:4)
-            location = '%s:%d' % (current_file, current_line_number)
+            location = '%s:%d' % (current_file, line_number)
 
             for step in all_steps:
                 if step['location'] == location:
