@@ -20,7 +20,8 @@ class StepsMixin(object):
         line - Its line number in the feature file
         '''
 
-        output = self.behave('--dry-run',
+        output = self.behave(self.view.file_name(),
+                             '--dry-run',
                              '--format',
                              'steps.usage',
                              '--no-summary',
