@@ -10,7 +10,6 @@ from ..behave_command import BehaveCommand
 
 
 STEP_SNIPPET = '''
-
 @${type}(u'${name}')
 def ${func}(context):
     raise NotImplementedError(u'STEP: ${name}')
@@ -22,6 +21,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
     def run(self, edit, **kwargs):
 
+        # Selected steps is a set of Steps that were under the cursors
         self.selected_steps = self._get_selected_steps()
 
         # TODO: Should sort by most recently selected
@@ -41,18 +41,22 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         # Create new file
         elif selected_index == 0:
             # TODO: Set Syntax of the new file to be python
-            view = self.view.window().new_file()
-
             # TODO: Add behave imports to the new file (by editing the snippet
             # maybe)
+            view = self.view.window().new_file()
 
         # Select existing file
         else:
             # Subtract one to account for the "Create file" item
             directory_index = selected_index - 1
 
-            view = self.view.window().open_file(
+            current_root = self.view.window().folders()[0]
+
+            # The paths are relative to the project root
+            file_directory = os.path.join(
+                current_root,
                 self.step_directories[directory_index])
+            view = self.view.window().open_file(file_directory)
 
         # Append snippet to the view
         sublime.set_timeout(lambda: self._append_snippet(view), 10)
@@ -62,6 +66,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         if view.is_loading():
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
         else:
+            initial_view_size = view.size()
             for step in self.selected_steps:
                 snippet = sublime.expand_variables(
                     STEP_SNIPPET,
@@ -73,6 +78,8 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                 view.run_command('append',
                                  {'characters': snippet,
                                   'scroll_to_end': True})
+
+            view.sel().add(sublime.Region(initial_view_size, view.size()))
 
     def _get_steps(self, output):
         steps = set()
