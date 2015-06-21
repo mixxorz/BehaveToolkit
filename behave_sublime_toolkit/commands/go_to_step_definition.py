@@ -57,3 +57,6 @@ class BstGoToStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         self.view.window().open_file(
             absolute_path, sublime.ENCODED_POSITION)
+
+        # TODO: Move the cursor position to highlight the step definition
+        # better
