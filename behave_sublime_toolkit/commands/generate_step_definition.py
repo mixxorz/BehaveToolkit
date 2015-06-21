@@ -49,9 +49,11 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         # Create new file
         elif selected_index == 0:
             # TODO: Set Syntax of the new file to be python
-            # TODO: Add behave imports to the new file (by editing the snippet
-            # maybe)
             view = self.view.window().new_file()
+
+            # Append snippet to the view
+            sublime.set_timeout(
+                lambda: self._append_snippet(view, new=True), 10)
 
         # Select existing file
         else:
@@ -66,12 +68,13 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                 self.step_directories[directory_index])
             view = self.view.window().open_file(file_directory)
 
-        # Append snippet to the view
-        sublime.set_timeout(lambda: self._append_snippet(view), 10)
+            # Append snippet to the view
+            sublime.set_timeout(lambda: self._append_snippet(view), 10)
 
-    def _append_snippet(self, view):
+    def _append_snippet(self, view, new=False):
         '''
-        Append snippet to the chosen file
+        Append snippet to the chosen file. If new=True, also set syntax to
+        Python and add behave imports
         '''
 
         # TODO: This is quite dangerous, maybe we should change this
@@ -79,6 +82,12 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
         else:
             initial_view_size = view.size()
+
+            if new:
+                behave_imports = 'from behave import given, when, then\n'
+                view.run_command('append', {'characters': behave_imports,
+                                            'scroll_to_end': True})
+
             for step in self.selected_steps:
                 snippet = sublime.expand_variables(
                     STEP_SNIPPET,
