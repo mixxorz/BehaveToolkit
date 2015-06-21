@@ -24,6 +24,9 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
     '''
 
     def run(self, edit, **kwargs):
+        sublime.set_timeout_async(self.run_async, 0)
+
+    def run_async(self):
 
         # Selected steps is a set of Steps that were under the cursors
         self.selected_steps = self._get_selected_steps()
