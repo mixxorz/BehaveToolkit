@@ -96,10 +96,12 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                      'func': step.name.lower().replace('"', '')
                      .replace(' ', '_')})
 
-                view.run_command('append',
-                                 {'characters': snippet,
-                                  'scroll_to_end': True})
+                view.run_command('append', {'characters': snippet})
 
+            # Scroll to bottom
+            view.run_command('move_to', {'to': 'eof'})
+
+            # Select the appended text
             view.sel().add(sublime.Region(initial_view_size, view.size()))
 
     def _get_step_directories(self):
