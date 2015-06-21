@@ -9,6 +9,15 @@ import sublime_plugin
 from ..behave_command import BehaveCommand
 
 
+STEP_SNIPPET = '''
+
+@${type}(u'${name}')
+def ${func}(context):
+    raise NotImplementedError(u'STEP: ${name}')
+
+'''
+
+
 class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
     def run(self, edit, **kwargs):
@@ -26,14 +35,17 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                                             self.on_select_action)
 
     def on_select_action(self, selected_index):
-        # Create new file
         if selected_index == -1:
             return
+
+        # Create new file
         elif selected_index == 0:
+            # TODO: Set Syntax of the new file to be python
             view = self.view.window().new_file()
 
             # TODO: Add behave imports to the new file (by editing the snippet
             # maybe)
+
         # Select existing file
         else:
             # Subtract one to account for the "Create file" item
@@ -50,9 +62,17 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         if view.is_loading():
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
         else:
-            print(self.selected_steps)
-            # view.run_command('append', {'characters': self.snippet,
-            #                             'scroll_to_end': True})
+            for step in self.selected_steps:
+                snippet = sublime.expand_variables(
+                    STEP_SNIPPET,
+                    {'type': step.step_type,
+                     'name': step.name,
+                     'func': step.name.lower().replace('"', '')
+                     .replace(' ', '_')})
+
+                view.run_command('append',
+                                 {'characters': snippet,
+                                  'scroll_to_end': True})
 
     def _get_steps(self, output):
         steps = set()
