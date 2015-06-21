@@ -93,12 +93,13 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         if view.is_loading():
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
         else:
-            initial_view_size = view.size()
+            snippet_buffer = ''
 
+            # If it's a new file, add the behave imports
             if new:
-                behave_imports = 'from behave import given, when, then\n'
-                view.run_command('append', {'characters': behave_imports,
-                                            'scroll_to_end': True})
+                snippet_buffer += 'from behave import given, when, then\n'
+            else:
+                snippet_buffer += '\n'
 
             for step in self.selected_steps:
                 snippet = sublime.expand_variables(
@@ -108,7 +109,11 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                      'func': step.name.lower().replace('"', '')
                      .replace(' ', '_')})
 
-                view.run_command('append', {'characters': snippet})
+                snippet_buffer += snippet
+
+            initial_view_size = view.size()
+
+            view.run_command('append', {'characters': snippet_buffer})
 
             # Scroll to bottom
             view.run_command('move_to', {'to': 'eof'})
