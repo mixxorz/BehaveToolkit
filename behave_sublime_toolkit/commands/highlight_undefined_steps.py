@@ -28,6 +28,8 @@ class BstHighlightUndefinedSteps(sublime_plugin.TextCommand, BehaveCommand):
                              '--no-snippets')
         offset = output.find('UNDEFINED STEPS')
 
+        region_name = 'bst.undefined_steps'
+
         if offset != -1:
             output = output[offset:]
 
@@ -45,6 +47,9 @@ class BstHighlightUndefinedSteps(sublime_plugin.TextCommand, BehaveCommand):
 
                 undefined_steps.append(step)
 
-            self.view.add_regions('undefined_steps',
+            self.view.add_regions(region_name,
                                   [step.region for step in undefined_steps],
                                   'comment')
+        else:
+            # Clear regions if we can't find UNDEFINED STEPS in the output
+            self.view.erase_regions(region_name)
