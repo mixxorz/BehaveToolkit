@@ -7,6 +7,9 @@ class BstHighlightUndefinedStepsEventListener(sublime_plugin.EventListener):
         if 'gherkin' in view.scope_name(0):
             view.run_command('bst_highlight_undefined_steps')
 
+    def on_activated(self, view):
+        self.highlight(view)
+
     def on_load(self, view):
         self.highlight(view)
 
