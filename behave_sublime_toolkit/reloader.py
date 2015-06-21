@@ -24,10 +24,10 @@ mods_load_order = [
     '.listeners.linting',
 
     '.mixins',
+    '.mixins.output_panel',
     '.mixins.steps',
 
     '.utils',
-    '.utils.log'
     '.utils.text'
 ]
 

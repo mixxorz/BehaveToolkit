@@ -1,8 +1,8 @@
 import os
 import subprocess
 
+from .mixins.output_panel import OutputPanelMixin
 from .mixins.steps import StepsMixin
-from .utils.log import OutputPanelMixin
 
 
 class BehaveCommand(OutputPanelMixin,
