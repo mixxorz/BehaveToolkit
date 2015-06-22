@@ -115,7 +115,7 @@ You can now start using BehaveToolkit by opening your command palette, typing `B
 
 BehaveToolkit does not come with keybindings by default. However, you can configure your own by adding entires to your Key Binding file. You can open the file via Preferences>Key Bindings - User. This file will be empty if you haven't set any custom keybinds. To start, let's add some:
 
-```json
+```javascript
 
 [
     // Run Scenario
