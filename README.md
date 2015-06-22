@@ -18,12 +18,12 @@ BehaveToolkit provides integration between Sublime Text 3 and Behave.
     <tr>
         <td width="50%">
             <a href="http://zippy.gfycat.com/NiceBlackandwhiteGreyhounddog.webm">
-                <img src="http://fat.gfycat.com/NiceBlackandwhiteGreyhounddog.gif" alt="Highlight Undefined Steps">
+                <img src="http://fat.gfycat.com/NiceBlackandwhiteGreyhounddog.gif" alt="Highlight Undefined Steps" style="max-width:100%;" width="100%">
             </a>
         </td>
         <td width="50%">
             <a href="http://zippy.gfycat.com/CalmWarmheartedBufflehead.webm">
-                <img src="http://giant.gfycat.com/CalmWarmheartedBufflehead.gif" alt="Generate Step Definition">
+                <img src="http://giant.gfycat.com/CalmWarmheartedBufflehead.gif" alt="Generate Step Definition" style="max-width:100%;" width="100%">
             </a>
         </td>
     </tr>
@@ -36,12 +36,12 @@ BehaveToolkit provides integration between Sublime Text 3 and Behave.
     <tr>
         <td width="50%">
             <a href="http://zippy.gfycat.com/InferiorIllinformedClingfish.webm">
-                <img src="http://giant.gfycat.com/InferiorIllinformedClingfish.gif" alt="Generate Missing Step Definitions">
+                <img src="http://giant.gfycat.com/InferiorIllinformedClingfish.gif" alt="Generate Missing Step Definitions" style="max-width:100%;" width="100%">
             </a>
         </td>
         <td width="50%">
             <a href="http://zippy.gfycat.com/ScrawnyNegligibleAlligator.webm">
-                <img src="http://giant.gfycat.com/ScrawnyNegligibleAlligator.gif" alt="Run Specific Scenario">
+                <img src="http://giant.gfycat.com/ScrawnyNegligibleAlligator.gif" alt="Run Specific Scenario" style="max-width:100%;" width="100%">
             </a>
         </td>
     </tr>
