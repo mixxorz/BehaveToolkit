@@ -1,0 +1,7 @@
+# BehaveToolkit has been updated to version 0.1.0.
+
+## Changelog
+
+### Features
+
+- Initial Release

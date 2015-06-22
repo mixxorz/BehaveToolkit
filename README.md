@@ -1,5 +1,5 @@
 # Behave Toolkit
-Behave integration for Sublime Text 3
+BehaveToolkit provides integration between Sublime Text 3 and Behave.
 
 ## Features:
 
@@ -29,3 +29,41 @@ cd "$env:appdata\Sublime Text 3\Packages\"
 
 git clone https://github.com/mixxorz/sublime-behave-toolkit
 ```
+
+## Setup
+
+BehaveToolkit requires `behave` to be installed. If you haven't already, you can
+install it using `pip`.
+
+```
+
+$ pip install behave
+
+```
+
+If you're installing inside a virtualenv, you need to update the
+"python_interpreter" setting in your project file.
+
+```
+
+{
+  "settings":
+  {
+    "python_interpreter": "/path/to/virtualenv/bin/python"
+  }
+}
+
+```
+
+You can now start using BehaveToolkit by opening your command palette
+`Super + Shift + P`(`Ctrl + Shift + P` on Windows), typing `Behave` and
+selecting the action you want to do.
+
+Certain actions can only be done when certain files are open. (e.g. "Go to step
+definition" only shows up when you have a feature file open.)
+
+## How to Contribute
+
+Please read the [contributing guide](CONTRIBUTING.md).
+
+
