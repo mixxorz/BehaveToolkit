@@ -99,4 +99,7 @@ You can now start using BehaveToolkit by opening your command palette, typing `B
 
 Please read the [contributing guide](CONTRIBUTING.md).
 
+## Links
 
+* [behave - BDD, Python style.](https://github.com/behave/behave) 
+* [behave-django - Behave BDD integration for Django](https://github.com/mixxorz/behave-django)
