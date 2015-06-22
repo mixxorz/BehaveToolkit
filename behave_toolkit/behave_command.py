@@ -55,11 +55,18 @@ class BehaveCommand(OutputPanelMixin,
         print_stream=True, it will also stream the output to an output panel.
         '''
 
+        startupinfo = None
+        if sublime.platform() == 'windows':
+            # Prevent Windows from opening a console when starting a process
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
         process = subprocess.Popen(command,
                                    stdout=subprocess.PIPE,
                                    bufsize=1,
                                    universal_newlines=True,
-                                   cwd=self.view.window().folders()[0])
+                                   cwd=self.view.window().folders()[0],
+                                   startupinfo=startupinfo)
 
         if print_stream:
             self.erase()
