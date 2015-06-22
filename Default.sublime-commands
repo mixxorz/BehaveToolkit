@@ -1,0 +1,13 @@
+[{
+  "caption": "Behave: Generate Missing Step Definitions",
+  "command": "bst_generate_missing_step_definitions"
+}, {
+  "caption": "Behave: Generate Step Definition",
+  "command": "bst_generate_step_definition"
+}, {
+  "caption": "Behave: Go To Step Definition",
+  "command": "bst_go_to_step_definition"
+}, {
+  "caption": "Behave: Run Scenario",
+  "command": "bst_run_scenario"
+}]

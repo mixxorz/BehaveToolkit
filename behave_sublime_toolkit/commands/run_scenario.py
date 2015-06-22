@@ -5,6 +5,7 @@ import sublime
 import sublime_plugin
 
 from ..behave_command import BehaveCommand
+from ..utils.scope import is_gherkin
 
 
 class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
@@ -18,6 +19,8 @@ class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
         - If the cursor is below a scenario, run that scenario only.
         - If there are multiple cursors, all of them will be run based on
           the rules set forth above.
+        - If you're not looking at a feature file, run everything (by not
+            specifying a file to behave).
     '''
 
     def run(self, edit, **kwargs):
@@ -33,7 +36,7 @@ class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
         '''
 
         # If we're not looking at a Gherkin file, just run everything
-        if 'gherkin' not in self.view.scope_name(0):
+        if not is_gherkin(self.view):
             return []
 
         # Scenario locations are stored here

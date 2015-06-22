@@ -7,6 +7,7 @@ import sublime
 import sublime_plugin
 
 from ..behave_command import BehaveCommand
+from ..utils.scope import is_gherkin
 from ..utils.text import snake_caseify
 
 
@@ -188,3 +189,9 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                     break
 
         return selected_steps
+
+    def is_enabled(self):
+        '''
+        Enable only for Gherkin
+        '''
+        return is_gherkin(self.view)

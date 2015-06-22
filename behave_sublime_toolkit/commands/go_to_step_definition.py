@@ -5,6 +5,7 @@ import sublime
 import sublime_plugin
 
 from ..behave_command import BehaveCommand
+from ..utils.scope import is_gherkin
 
 
 class BstGoToStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
@@ -60,3 +61,9 @@ class BstGoToStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         # TODO: Move the cursor position to highlight the step definition
         # better
+
+    def is_enabled(self):
+        '''
+        Enable only for Gherkin
+        '''
+        return is_gherkin(self.view)
