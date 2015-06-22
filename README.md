@@ -27,7 +27,7 @@ cd $HOME/.config/sublime-text-3/Packages
 # on Windows (PowerShell)
 cd "$env:appdata\Sublime Text 3\Packages\"
 
-git clone https://github.com/mixxorz/sublime-behave-toolkit
+git clone https://github.com/mixxorz/BehaveToolkit
 ```
 
 ## Setup
