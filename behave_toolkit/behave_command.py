@@ -19,11 +19,13 @@ class BehaveCommand(OutputPanelMixin,
         shown live in an output panel.
         '''
 
-        command = (self.python_binary_path, ) + \
-            tuple(behave for behave in self.behave_binary_path) + \
+        command = tuple(self.behave_command) + \
             tuple(arg for arg in args if arg)
 
+        print('Command %s' % (command,))
+
         stdout = ''
+        stderr = ''
         with subprocess.Popen(command,
                               stdout=subprocess.PIPE,
                               bufsize=1,
@@ -39,32 +41,22 @@ class BehaveCommand(OutputPanelMixin,
                     self.append(line, end='')
 
             else:
-                for line in p.stdout:
-                    stdout += line
+                stdout, stderr = p.communicate()
 
+        if stderr:
+            print('STDERR: %s' % stderr)
         return stdout
 
     @property
-    def behave_binary_path(self):
+    def behave_command(self):
         '''
-        Return the path to the `behave` binary in tuple form. This is because
-        `behave_command` may not be a single binary. (e.g. manage.py behave)
+        The command used to launch behave. This can be set by modifying the
+        behave_command setting. The setting should be a list. If not set, the
+        plugin uses value of `which behave`.
         '''
         behave = self.view.settings().get('behave_command')
 
         if behave:
-            if type(behave) == list:
-                return behave
-            else:
-                return [behave]
+            return behave
         else:
-            # default
-            return [os.path.join(os.path.dirname(self.python_binary_path),
-                                 'behave')]
-
-    @property
-    def python_binary_path(self):
-        '''
-        Return the path to the `python` binary.
-        '''
-        return self.view.settings().get('python_interpreter', 'python')
+            return [subprocess.check_output(['which', 'behave']).strip()]
