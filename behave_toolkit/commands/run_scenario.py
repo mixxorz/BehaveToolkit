@@ -27,7 +27,7 @@ class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
         sublime.set_timeout_async(self.run_async, 0)
 
     def run_async(self):
-        self.behave('--no-skipped', *self._get_tests_part(), output=True)
+        self.behave('--no-skipped', *self._get_tests_part(), print_stream=True)
 
     def _get_tests_part(self):
         '''

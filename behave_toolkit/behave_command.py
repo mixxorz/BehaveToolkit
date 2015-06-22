@@ -1,4 +1,5 @@
 import subprocess
+import threading
 
 import sublime
 
@@ -16,8 +17,8 @@ class BehaveCommand(OutputPanelMixin,
     def behave(self, *args, **kwargs):
         '''
         Run the behave command specified in `*args` and return the output
-        of the git command as a string. If output=True, the output will be
-        shown live in an output panel.
+        of the command as a string. If print_stream=True, the output will be
+        streamed in an output panel.
         '''
 
         command = tuple(self.behave_command) + \
@@ -25,28 +26,8 @@ class BehaveCommand(OutputPanelMixin,
 
         print('Command %s' % (command,))
 
-        stdout = ''
-        stderr = ''
-        with subprocess.Popen(command,
-                              stdout=subprocess.PIPE,
-                              bufsize=1,
-                              universal_newlines=True,
-                              cwd=self.view.window().folders()[0]) as p:
-
-            # Premature optimization is the root of all evil
-            # But this could be more DRY
-            if kwargs.get('output', False):
-                self.erase()
-                for line in p.stdout:
-                    stdout += line
-                    self.append(line, end='')
-
-            else:
-                stdout, stderr = p.communicate()
-
-        if stderr:
-            print('STDERR: %s' % stderr)
-        return stdout
+        return self._launch_process(command,
+                                    print_stream=kwargs.get('print_stream'))
 
     @property
     def behave_command(self):
@@ -65,5 +46,43 @@ class BehaveCommand(OutputPanelMixin,
             if sublime.platform() == 'windows':
                 which = 'where'
 
-            out = subprocess.check_output([which, 'behave'])
-            return [out.decode('utf-8').strip()]
+            out = self._launch_process([which, 'behave'])
+            return [out.strip()]
+
+    def _launch_process(self, command, print_stream=False):
+        '''
+        Launches a process and returns its output as a string. If
+        print_stream=True, it will also stream the output to an output panel.
+        '''
+
+        process = subprocess.Popen(command,
+                                   stdout=subprocess.PIPE,
+                                   bufsize=1,
+                                   universal_newlines=True,
+                                   cwd=self.view.window().folders()[0])
+
+        if print_stream:
+            self.erase()
+            streamer = StreamerThread(self.append, process.stdout)
+            streamer.start()
+            streamer.join()
+
+        stdout, stderr = process.communicate()
+
+        return stdout
+
+
+class StreamerThread(threading.Thread):
+
+    '''
+    Streams `stream` to the output panel.
+    '''
+
+    def __init__(self, append, stream):
+        super(StreamerThread, self).__init__()
+        self.append = append
+        self.stream = stream
+
+    def run(self):
+        for line in self.stream:
+            self.append(line, end='')
