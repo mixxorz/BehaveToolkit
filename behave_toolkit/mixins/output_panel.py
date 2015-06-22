@@ -1,4 +1,4 @@
-PANEL_NAME = 'BehaveSublimeToolkit'
+PANEL_NAME = 'bst_behave_output'
 
 
 class OutputPanelMixin(object):

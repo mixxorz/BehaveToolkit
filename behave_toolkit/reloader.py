@@ -4,10 +4,10 @@ import sys
 
 reload_mods = []
 for mod in sys.modules:
-    if mod[0:20] == 'BehaveSublimeToolkit' and sys.modules[mod] != None:
+    if mod[0:20] == 'BehaveToolkit' and sys.modules[mod] != None:
         reload_mods.append(mod)
 
-mod_prefix = 'BehaveSublimeToolkit.behave_sublime_toolkit'
+mod_prefix = 'BehaveToolkit.behave_toolkit'
 
 mods_load_order = [
     '',
