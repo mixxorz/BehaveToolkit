@@ -65,4 +65,5 @@ class BehaveCommand(OutputPanelMixin,
             if sublime.platform() == 'windows':
                 which = 'where'
 
-            return [subprocess.check_output([which, 'behave']).strip()]
+            out = subprocess.check_output([which, 'behave'])
+            return [out.decode('utf-8').strip()]
