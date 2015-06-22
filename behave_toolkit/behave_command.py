@@ -1,5 +1,6 @@
-import os
 import subprocess
+
+import sublime
 
 from .mixins.output_panel import OutputPanelMixin
 from .mixins.steps import StepsMixin
@@ -59,4 +60,9 @@ class BehaveCommand(OutputPanelMixin,
         if behave:
             return behave
         else:
-            return [subprocess.check_output(['which', 'behave']).strip()]
+            # Find the behave executable
+            which = 'which'
+            if sublime.platform() == 'windows':
+                which = 'where'
+
+            return [subprocess.check_output([which, 'behave']).strip()]
