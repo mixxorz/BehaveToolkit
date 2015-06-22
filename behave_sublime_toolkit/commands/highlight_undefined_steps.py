@@ -1,6 +1,3 @@
-from collections import namedtuple
-import re
-
 import sublime
 import sublime_plugin
 
