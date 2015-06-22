@@ -4,8 +4,48 @@ BehaveToolkit provides integration between Sublime Text 3 and Behave.
 ## Features:
 
 * Run specific scenarios
-* Go to step definition
 * Generate step definitions
+* Go to step definition
+* Highlight undefined steps
+
+## Highlights
+
+<table>
+    <tr>
+        <th>Highlight Undefined Steps</th>
+        <th>Generate Step Definition</th>
+    </tr>
+    <tr>
+        <td width="50%">
+            <a href="http://zippy.gfycat.com/NiceBlackandwhiteGreyhounddog.webm">
+                <img src="http://fat.gfycat.com/NiceBlackandwhiteGreyhounddog.gif" alt="Highlight Undefined Steps">
+            </a>
+        </td>
+        <td width="50%">
+            <a href="http://zippy.gfycat.com/CalmWarmheartedBufflehead.webm">
+                <img src="http://giant.gfycat.com/CalmWarmheartedBufflehead.gif" alt="Generate Step Definition">
+            </a>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th>Generate Missing Step Definitions</th>
+        <th>Run Specific Scenario</th>
+    </tr>
+    <tr>
+        <td width="50%">
+            <a href="http://zippy.gfycat.com/InferiorIllinformedClingfish.webm">
+                <img src="http://giant.gfycat.com/InferiorIllinformedClingfish.gif" alt="Generate Missing Step Definitions">
+            </a>
+        </td>
+        <td width="50%">
+            <a href="http://zippy.gfycat.com/ScrawnyNegligibleAlligator.webm">
+                <img src="http://giant.gfycat.com/ScrawnyNegligibleAlligator.gif" alt="Run Specific Scenario">
+            </a>
+        </td>
+    </tr>
+</table>
 
 ## Installation
 
