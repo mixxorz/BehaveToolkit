@@ -20,8 +20,8 @@ Feature: Test Scenarios
   Scenario: Pattern matching scen
     Given the "thing"
     When I "do another thing"
-    | name  | age |
-    | Mitch | 21  |
+    | fruit  | tastiness |
+    | Banana | 70        |
     Then third thing
     And it will fail
     And the fourth thing

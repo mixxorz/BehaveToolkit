@@ -1,5 +1,7 @@
-import os
 import subprocess
+import threading
+
+import sublime
 
 from .mixins.output_panel import OutputPanelMixin
 from .mixins.steps import StepsMixin
@@ -15,56 +17,79 @@ class BehaveCommand(OutputPanelMixin,
     def behave(self, *args, **kwargs):
         '''
         Run the behave command specified in `*args` and return the output
-        of the git command as a string. If output=True, the output will be
-        shown live in an output panel.
+        of the command as a string. If print_stream=True, the output will be
+        streamed in an output panel.
         '''
 
-        command = (self.python_binary_path, ) + \
-            tuple(behave for behave in self.behave_binary_path) + \
+        command = tuple(self.behave_command) + \
             tuple(arg for arg in args if arg)
 
-        stdout = ''
-        with subprocess.Popen(command,
-                              stdout=subprocess.PIPE,
-                              bufsize=1,
-                              universal_newlines=True,
-                              cwd=self.view.window().folders()[0]) as p:
+        print('Command %s' % (command,))
 
-            # Premature optimization is the root of all evil
-            # But this could be more DRY
-            if kwargs.get('output', False):
-                self.erase()
-                for line in p.stdout:
-                    stdout += line
-                    self.append(line, end='')
-
-            else:
-                for line in p.stdout:
-                    stdout += line
-
-        return stdout
+        return self._launch_process(command,
+                                    print_stream=kwargs.get('print_stream'))
 
     @property
-    def behave_binary_path(self):
+    def behave_command(self):
         '''
-        Return the path to the `behave` binary in tuple form. This is because
-        `behave_command` may not be a single binary. (e.g. manage.py behave)
+        The command used to launch behave. This can be set by modifying the
+        behave_command setting. The setting should be a list. If not set, the
+        plugin uses value of `which behave`.
         '''
         behave = self.view.settings().get('behave_command')
 
         if behave:
-            if type(behave) == list:
-                return behave
-            else:
-                return [behave]
+            return behave
         else:
-            # default
-            return [os.path.join(os.path.dirname(self.python_binary_path),
-                                 'behave')]
+            # Find the behave executable
+            which = 'which'
+            if sublime.platform() == 'windows':
+                which = 'where'
 
-    @property
-    def python_binary_path(self):
+            out = self._launch_process([which, 'behave'])
+            return [out.strip()]
+
+    def _launch_process(self, command, print_stream=False):
         '''
-        Return the path to the `python` binary.
+        Launches a process and returns its output as a string. If
+        print_stream=True, it will also stream the output to an output panel.
         '''
-        return self.view.settings().get('python_interpreter', 'python')
+
+        startupinfo = None
+        if sublime.platform() == 'windows':
+            # Prevent Windows from opening a console when starting a process
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+        process = subprocess.Popen(command,
+                                   stdout=subprocess.PIPE,
+                                   bufsize=1,
+                                   universal_newlines=True,
+                                   cwd=self.view.window().folders()[0],
+                                   startupinfo=startupinfo)
+
+        if print_stream:
+            self.erase()
+            streamer = StreamerThread(self.append, process.stdout)
+            streamer.start()
+            streamer.join()
+
+        stdout, stderr = process.communicate()
+
+        return stdout
+
+
+class StreamerThread(threading.Thread):
+
+    '''
+    Streams `stream` to the output panel.
+    '''
+
+    def __init__(self, append, stream):
+        super(StreamerThread, self).__init__()
+        self.append = append
+        self.stream = stream
+
+    def run(self):
+        for line in self.stream:
+            self.append(line, end='')
