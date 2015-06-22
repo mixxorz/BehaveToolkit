@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+@${1:given}(u'${2:step definition}')
+def ${3:step_impl}(context):
+    raise NotImplementedError(u'STEP: ${2:step definition}')
+]]></content>
+    <tabTrigger>step</tabTrigger>
+    <scope>source.python</scope>
+    <description>Behave step function</description>
+</snippet>
