@@ -32,8 +32,7 @@ git clone https://github.com/mixxorz/sublime-behave-toolkit
 
 ## Setup
 
-BehaveToolkit requires `behave` to be installed. If you haven't already, you can
-install it using `pip`.
+BehaveToolkit requires `behave` to be installed. If you haven't already, you can install it using `pip`.
 
 ```
 
@@ -41,26 +40,20 @@ $ pip install behave
 
 ```
 
-If you're installing inside a virtualenv, you need to update the
-"python_interpreter" setting in your project file.
+By default, behave will be launched using the value returned by `which behave`. If you want to modify the way behave gets launched (if you're using a virtualenv, for example), you need to update the "behave_command" setting in your project file.
 
 ```
 
 {
   "settings":
   {
-    "python_interpreter": "/path/to/virtualenv/bin/python"
+    "behave_command": ["/path/to/virtualenv/bin/behave"]
   }
 }
 
 ```
 
-You can now start using BehaveToolkit by opening your command palette
-`Super + Shift + P`(`Ctrl + Shift + P` on Windows), typing `Behave` and
-selecting the action you want to do.
-
-Certain actions can only be done when certain files are open. (e.g. "Go to step
-definition" only shows up when you have a feature file open.)
+You can now start using BehaveToolkit by opening your command palette, typing `Behave` and selecting the action you want to do. Certain actions can only be done when certain files are open. (e.g. "Go to step definition" only shows up when you have a feature file open.)
 
 ## How to Contribute
 
