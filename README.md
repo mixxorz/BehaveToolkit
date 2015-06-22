@@ -27,6 +27,14 @@ BehaveToolkit provides integration between Sublime Text 3 and Behave.
             </a>
         </td>
     </tr>
+    <tr>
+      <td width="50%">
+        Easily see which steps need step definitions.
+      </td>
+      <td width="50%">
+        Generate code for your step. Choose to save it to a new file, or append it to an existing steps file.
+      </td>
+    </tr>
 </table>
 <table>
     <tr>
@@ -44,6 +52,14 @@ BehaveToolkit provides integration between Sublime Text 3 and Behave.
                 <img src="http://giant.gfycat.com/ScrawnyNegligibleAlligator.gif" alt="Run Specific Scenario" style="max-width:100%;" width="100%">
             </a>
         </td>
+    </tr>
+    <tr>
+      <td width="50%">
+        Generate code for all undefined steps.
+      </td>
+      <td width="50%">
+        Run scenarios under the cursor. The output will be right in Sublime Text.
+      </td>
     </tr>
 </table>
 
