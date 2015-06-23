@@ -40,7 +40,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                 self.line_numbers.append(
                     self.view.rowcol(region.begin())[0] + 1)
 
-        # Selected steps is a set of Steps that were under the cursors
+        # Selected steps is a set of Usages that were under the cursors
         self.selected_steps = self._get_selected_steps()
 
         # TODO: Should sort by most recently selected
@@ -103,12 +103,12 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             else:
                 snippet_buffer += '\n'
 
-            for step in self.selected_steps:
+            for usage in self.selected_steps:
                 snippet = sublime.expand_variables(
                     STEP_SNIPPET,
-                    {'type': step.step_type,
-                     'name': step.name,
-                     'func': snake_caseify(step.name)})
+                    {'type': usage.type,
+                     'name': usage.name,
+                     'func': snake_caseify(usage.name)})
 
                 snippet_buffer += snippet
 
@@ -158,21 +158,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
         current_root = self.view.window().folders()[0]
         current_file = os.path.relpath(self.view.file_name(), current_root)
 
-        # Query behave for step information
-        json_output = self.behave(current_file, '--dry-run',
-                                  '--format', 'json', '--no-summary',
-                                  '--no-snippets')
-        output = json.loads(json_output)
-
-        # Get all the steps
-        all_steps = []
-
-        for feature in output:
-            for element in feature['elements']:
-                for step in element['steps']:
-                    all_steps.append(step)
-
-        Step = namedtuple('Step', ['step_type', 'name'])
+        undefined_steps = self.get_undefined_steps()
 
         selected_steps = set()
 
@@ -183,9 +169,12 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             # (e.g. features/toolkit.feature:4)
             location = '%s:%d' % (current_file, line_number)
 
-            for step in all_steps:
-                if step['location'] == location:
-                    selected_steps.add(Step(step['step_type'], step['name']))
+            for usage in undefined_steps:
+
+                step_location = '%s:%d' % (usage.path, usage.line)
+
+                if step_location == location:
+                    selected_steps.add(usage)
                     break
 
         return selected_steps

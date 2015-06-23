@@ -34,7 +34,7 @@ class StepsMixin(object):
         for feature in json_data:
             for element in feature['elements']:
                 for step in element['steps']:
-                    step_type_dict[step['location']] = step['step_type']
+                    step_type_dict[step['location']] = step
 
         section_pattern = re.compile('(^@.*?)(UN|$)', re.DOTALL)
         section = re.search(section_pattern, output)
@@ -59,10 +59,11 @@ class StepsMixin(object):
                 location = '%s:%s' % (usage[1].strip(),
                                       usage[2].strip())
 
-                parsed_usages.append(Usage(usage[0].strip(),
-                                           usage[1].strip(),
-                                           int(usage[2].strip()),
-                                           step_type_dict[location]))
+                parsed_usages.append(
+                    Usage(step_type_dict[location]['name'],
+                          usage[1].strip(),
+                          int(usage[2].strip()),
+                          step_type_dict[location]['step_type']))
 
             parsed_steps.append(Step(func.group(1).strip(),
                                      func.group(2).strip(),
@@ -118,7 +119,7 @@ class StepsMixin(object):
         for feature in json_data:
             for element in feature['elements']:
                 for step in element['steps']:
-                    step_type_dict[step['location']] = step['step_type']
+                    step_type_dict[step['location']] = step
 
         section_pattern = re.compile('UNDEFINED STEPS\[[\d+]\]:(.*)',
                                      re.DOTALL)
@@ -137,10 +138,11 @@ class StepsMixin(object):
                 location = '%s:%s' % (step.group(2).strip(),
                                       step.group(3).strip())
 
-                parsed_steps.append(Usage(step.group(1).strip(),
-                                          step.group(2).strip(),
-                                          int(step.group(3).strip()),
-                                          step_type_dict[location]))
+                parsed_steps.append(
+                    Usage(step_type_dict[location]['name'],
+                          step.group(2).strip(),
+                          int(step.group(3).strip()),
+                          step_type_dict[location]['step_type']))
 
         return parsed_steps
 
