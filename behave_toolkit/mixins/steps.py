@@ -14,7 +14,7 @@ class StepsMixin(object):
     def get_used_steps(self):
         """Returns a list of Steps that are being used."""
 
-        output = self._get_output()
+        json_output, output = self._get_output()
 
         section_pattern = re.compile('(^@.*?)(UN|$)', re.DOTALL)
         section = re.search(section_pattern, output)
@@ -49,7 +49,7 @@ class StepsMixin(object):
     def get_unused_steps(self):
         """Returns a list of Steps that are unused."""
 
-        output = self._get_output()
+        json_output, output = self._get_output()
 
         unused_step_pattern = re.compile('^ {2}(@.*)#(.*):(\d+)', re.MULTILINE)
 
@@ -66,7 +66,7 @@ class StepsMixin(object):
     def get_undefined_steps(self):
         """Returns a list of Usages that are undefined."""
 
-        output = self._get_output()
+        json_output, output = self._get_output()
 
         section_pattern = re.compile('UNDEFINED STEPS\[[\d+]\]:(.*)',
                                      re.DOTALL)
@@ -88,13 +88,28 @@ class StepsMixin(object):
         return parsed_steps
 
     def _get_output(self):
-        """Calls `behave` to get steps data."""
+        """
+        Returns the json and step output by calling `behave`.
+
+        Calls behave with both the json formatter and the steps.usage
+        formatter. Suprisingly, it returns both formats.
+
+        Returns (json_output, steps_output) ; both str
+        """
 
         output = self.behave(self.view.file_name(),
                              '--dry-run',
+                             '--format',
+                             'json',
                              '--format',
                              'steps.usage',
                              '--no-summary',
                              '--no-snippets')
 
-        return output
+        json_pattern = re.compile('(.*\])\n', re.DOTALL)
+        json_match = re.search(json_pattern, output)
+        json_output = json_match.group(1)
+
+        steps_output = output[json_match.end(0):]
+
+        return json_output, steps_output
