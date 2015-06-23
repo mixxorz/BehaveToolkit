@@ -11,10 +11,18 @@ class StepsMixin(object):
     Provies methods for dealing with steps
     '''
 
-    def get_used_steps(self):
-        """Returns a list of Steps that are being used."""
+    def get_used_steps(self, project_wide=False):
+        """
+        Returns a list of Steps that are being used.
 
-        json_output, output = self._get_output()
+        It only returns steps related to the current active file.
+
+        Keyword arguments:
+            project_wide -- If True, will return project wide step data.
+
+        """
+
+        json_output, output = self._get_output(project_wide=project_wide)
 
         section_pattern = re.compile('(^@.*?)(UN|$)', re.DOTALL)
         section = re.search(section_pattern, output)
@@ -46,10 +54,18 @@ class StepsMixin(object):
 
         return parsed_steps
 
-    def get_unused_steps(self):
-        """Returns a list of Steps that are unused."""
+    def get_unused_steps(self, project_wide=False):
+        """
+        Returns a list of Steps that are unused.
 
-        json_output, output = self._get_output()
+        It only returns steps related to the current active file.
+
+        Keyword arguments:
+            project_wide -- If True, will return project wide step data.
+
+        """
+
+        json_output, output = self._get_output(project_wide=project_wide)
 
         unused_step_pattern = re.compile('^ {2}(@.*)#(.*):(\d+)', re.MULTILINE)
 
@@ -63,10 +79,18 @@ class StepsMixin(object):
 
         return parsed_steps
 
-    def get_undefined_steps(self):
-        """Returns a list of Usages that are undefined."""
+    def get_undefined_steps(self, project_wide=False):
+        """
+        Returns a list of Usages that are undefined.
 
-        json_output, output = self._get_output()
+        It only returns steps related to the current active file.
+
+        Keyword arguments:
+            project_wide -- If True, will return project wide step data.
+
+        """
+
+        json_output, output = self._get_output(project_wide=project_wide)
 
         section_pattern = re.compile('UNDEFINED STEPS\[[\d+]\]:(.*)',
                                      re.DOTALL)
@@ -87,24 +111,34 @@ class StepsMixin(object):
 
         return parsed_steps
 
-    def _get_output(self):
+    def _get_output(self, project_wide):
         """
         Returns the json and step output by calling `behave`.
 
         Calls behave with both the json formatter and the steps.usage
         formatter. Suprisingly, it returns both formats.
 
+        It only returns steps related to the current active file.
+
+        Keyword arguments:
+            project_wide -- If True, will return project wide step data.
+
         Returns (json_output, steps_output) ; both str
         """
 
-        output = self.behave(self.view.file_name(),
-                             '--dry-run',
-                             '--format',
-                             'json',
-                             '--format',
-                             'steps.usage',
-                             '--no-summary',
-                             '--no-snippets')
+        args = ['--dry-run',
+                '--format',
+                'json',
+                '--format',
+                'steps.usage',
+                '--no-summary',
+                '--no-snippets'
+                ]
+
+        if not project_wide:
+            args.append(self.view.file_name())
+
+        output = self.behave(*args)
 
         json_pattern = re.compile('(.*\])\n', re.DOTALL)
         json_match = re.search(json_pattern, output)
