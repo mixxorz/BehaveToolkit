@@ -1,8 +1,9 @@
 from collections import namedtuple
+import json
 import re
 
 Step = namedtuple('Step', ['func', 'path', 'line', 'usages'])
-Usage = namedtuple('Usage', ['name', 'path', 'line'])
+Usage = namedtuple('Usage', ['name', 'path', 'line', 'type'])
 
 
 class StepsMixin(object):
@@ -24,6 +25,17 @@ class StepsMixin(object):
 
         json_output, output = self._get_output(project_wide=project_wide)
 
+        json_data = json.loads(json_output)
+
+        # All steps from  json data
+        # Key is the step location, value is the step type.
+        step_type_dict = {}
+
+        for feature in json_data:
+            for element in feature['elements']:
+                for step in element['steps']:
+                    step_type_dict[step['location']] = step['step_type']
+
         section_pattern = re.compile('(^@.*?)(UN|$)', re.DOTALL)
         section = re.search(section_pattern, output)
 
@@ -43,9 +55,14 @@ class StepsMixin(object):
             parsed_usages = []
 
             for usage in usages:
+
+                location = '%s:%s' % (usage[1].strip(),
+                                      usage[2].strip())
+
                 parsed_usages.append(Usage(usage[0].strip(),
                                            usage[1].strip(),
-                                           int(usage[2].strip())))
+                                           int(usage[2].strip()),
+                                           step_type_dict[location]))
 
             parsed_steps.append(Step(func.group(1).strip(),
                                      func.group(2).strip(),
@@ -92,6 +109,17 @@ class StepsMixin(object):
 
         json_output, output = self._get_output(project_wide=project_wide)
 
+        json_data = json.loads(json_output)
+
+        # All steps from  json data
+        # Key is the step location, value is the step type.
+        step_type_dict = {}
+
+        for feature in json_data:
+            for element in feature['elements']:
+                for step in element['steps']:
+                    step_type_dict[step['location']] = step['step_type']
+
         section_pattern = re.compile('UNDEFINED STEPS\[[\d+]\]:(.*)',
                                      re.DOTALL)
 
@@ -105,9 +133,14 @@ class StepsMixin(object):
             single_step_pattern = re.compile('(.*)#(.*):(\d+)', re.MULTILINE)
 
             for step in re.finditer(single_step_pattern, section):
+
+                location = '%s:%s' % (step.group(2).strip(),
+                                      step.group(3).strip())
+
                 parsed_steps.append(Usage(step.group(1).strip(),
                                           step.group(2).strip(),
-                                          int(step.group(3).strip())))
+                                          int(step.group(3).strip()),
+                                          step_type_dict[location]))
 
         return parsed_steps
 
