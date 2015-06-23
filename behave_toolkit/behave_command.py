@@ -24,8 +24,6 @@ class BehaveCommand(OutputPanelMixin,
         command = tuple(self.behave_command) + \
             tuple(arg for arg in args if arg)
 
-        print('Command %s' % (command,))
-
         return self._launch_process(command,
                                     print_stream=kwargs.get('print_stream'))
 

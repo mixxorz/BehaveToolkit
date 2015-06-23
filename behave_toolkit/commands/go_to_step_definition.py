@@ -26,8 +26,6 @@ class BstGoToStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         step = '%s:%s' % (current_file, current_line_number)
 
-        print('Step: %s' % step)
-
         output = self.behave(self.view.file_name(),
                              '--dry-run',
                              '--format',
