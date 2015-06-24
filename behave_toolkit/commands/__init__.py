@@ -1,3 +1,4 @@
+from .debug import BstReloadModules
 from .generate_missing_step_definitions import BstGenerateMissingStepDefinitions
 from .generate_step_definition import BstGenerateStepDefinition
 from .go_to_step_definition import BstGoToStepDefinition
@@ -9,5 +10,6 @@ _all__ = [
     'BstGenerateStepDefinition',
     'BstGoToStepDefinition',
     'BstHighlightUndefinedSteps',
+    'BstReloadModules',
     'BstRunScenario'
 ]
