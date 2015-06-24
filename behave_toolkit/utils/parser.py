@@ -115,16 +115,12 @@ def parse_undefined_steps(step_data):
     section_pattern = re.compile('UNDEFINED STEPS\[\d+\]:(.*)',
                                  re.DOTALL)
 
-    print(steps_output)
-
     section_match = re.search(section_pattern, steps_output)
 
     parsed_steps = []
 
     if section_match:
         section = section_match.group(1)
-        print('Section')
-        print(section)
 
         single_step_pattern = re.compile('(.*)#(.*):(\d+)', re.MULTILINE)
 
