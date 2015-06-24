@@ -47,8 +47,11 @@ class BstRunScenario(sublime_plugin.TextCommand, BehaveCommand):
         # Gets JSON information about the current feature file
         # via the 'json' behave formatter
 
-        json_output = self.behave(current_file, '--dry-run',
-                                  '--format', 'json', '--no-summary',
+        json_output = self.behave(current_file,
+                                  '--dry-run',
+                                  '--format',
+                                  'json',
+                                  '--no-summary',
                                   '--no-snippets')
 
         output = json.loads(json_output)
