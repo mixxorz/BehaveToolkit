@@ -53,8 +53,6 @@ class BehaveCommand(OutputPanelMixin,
         print_stream=True, it will also stream the output to an output panel.
         '''
 
-        print('Command: ', command)
-
         startupinfo = None
         if sublime.platform() == 'windows':
             # Prevent Windows from opening a console when starting a process
