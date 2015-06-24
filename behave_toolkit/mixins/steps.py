@@ -1,16 +1,11 @@
-from collections import namedtuple
-
 from ..utils import parser
-
-Step = namedtuple('Step', ['func', 'path', 'line', 'usages'])
-Usage = namedtuple('Usage', ['name', 'path', 'line', 'type'])
 
 
 class StepsMixin(object):
 
-    '''
+    """
     Provies methods for dealing with steps
-    '''
+    """
 
     def get_used_steps(self, project_wide=False):
         """

@@ -1,12 +1,10 @@
-from collections import namedtuple
-import json
 import os
-import re
 
 import sublime
 import sublime_plugin
 
 from ..behave_command import BehaveCommand
+from ..utils import parser
 from ..utils.scope import is_gherkin
 from ..utils.text import snake_caseify
 
@@ -40,11 +38,18 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                 self.line_numbers.append(
                     self.view.rowcol(region.begin())[0] + 1)
 
+        step_data = self._get_step_data()
+
+        used_steps = parser.parse_used_steps(step_data)
+        unused_steps = parser.parse_unused_steps(step_data)
+        undefined_steps = parser.parse_undefined_steps(step_data)
+
         # Selected steps is a set of Usages that were under the cursors
-        self.selected_steps = self._get_selected_steps()
+        self.selected_steps = self._get_selected_steps(undefined_steps)
 
         # TODO: Should sort by most recently selected
-        self.step_file_paths = self._get_step_file_paths()
+        self.step_file_paths = self._get_step_file_paths(used_steps,
+                                                         unused_steps)
         items = [['Create a new file',
                   'Creates a new file with the step definition.']]
         items += [[os.path.basename(dir), dir]
@@ -122,30 +127,20 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             # Select the appended text
             view.sel().add(sublime.Region(initial_view_size, view.size()))
 
-    def _get_step_file_paths(self):
+    def _get_step_file_paths(self, used_steps, unused_steps):
         """Get the path of the step files used by behave."""
 
-        output = self.behave('--dry-run',
-                             '--format',
-                             'steps.doc',
-                             '--no-summary',
-                             '--no-snippets')
+        step_file_paths = set()
 
-        p = re.compile('Location:\s(.*):\d+', re.MULTILINE)
+        for step in used_steps:
+            step_file_paths.add(step.path)
 
-        matched_set = re.findall(p, output)
+        for step in unused_steps:
+            step_file_paths.add(step.path)
 
-        step_file_paths = list(set(matched_set))
+        return list(step_file_paths)
 
-        # Since all the directories returned by behave are relative to the
-        # project root, anything that starts with '..' is outside the project's
-        # scope. We don't want to list those
-        step_file_paths = [
-            dir for dir in step_file_paths if not dir[:2] == '..']
-
-        return step_file_paths
-
-    def _get_selected_steps(self):
+    def _get_selected_steps(self, undefined_steps):
         '''
         Get steps under the cursors as a set of namedtuples.
 
@@ -155,8 +150,6 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         current_root = self.view.window().folders()[0]
         current_file = os.path.relpath(self.view.file_name(), current_root)
-
-        undefined_steps = self.get_undefined_steps()
 
         selected_steps = set()
 

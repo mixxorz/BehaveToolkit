@@ -66,7 +66,7 @@ def parse_used_steps(step_data):
     return parsed_steps
 
 
-def parse_unused_steps(self, step_data):
+def parse_unused_steps(step_data):
     """
     Returns a list of Steps that are unused.
 
@@ -112,8 +112,10 @@ def parse_undefined_steps(step_data):
             for step in element['steps']:
                 step_type_dict[step['location']] = step
 
-    section_pattern = re.compile('UNDEFINED STEPS\[[\d+]\]:(.*)',
+    section_pattern = re.compile('UNDEFINED STEPS\[\d+\]:(.*)',
                                  re.DOTALL)
+
+    print(steps_output)
 
     section_match = re.search(section_pattern, steps_output)
 
@@ -121,6 +123,8 @@ def parse_undefined_steps(step_data):
 
     if section_match:
         section = section_match.group(1)
+        print('Section')
+        print(section)
 
         single_step_pattern = re.compile('(.*)#(.*):(\d+)', re.MULTILINE)
 
