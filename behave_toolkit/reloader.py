@@ -29,7 +29,8 @@ mods_load_order = [
     '.mixins.steps',
 
     '.utils',
-    '.utils.scope'
+    '.utils.parser',
+    '.utils.scope',
     '.utils.text'
 ]
 

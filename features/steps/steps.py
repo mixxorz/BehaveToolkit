@@ -29,3 +29,15 @@ def second_thing_happens(context):
 @then(u'a second thing should happen')
 def second_thing_should_happen(context):
     pass
+
+
+@given(u'a third thing')
+def a_third_thing(context):
+    raise NotImplementedError(u'STEP: a third thing')
+
+
+
+@then(u'it will fail')
+def it_will_fail(context):
+    raise NotImplementedError(u'STEP: it will fail')
+

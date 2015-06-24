@@ -123,9 +123,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             view.sel().add(sublime.Region(initial_view_size, view.size()))
 
     def _get_step_file_paths(self):
-        '''
-        Get the path of the step files used by behave.
-        '''
+        """Get the path of the step files used by behave."""
 
         output = self.behave('--dry-run',
                              '--format',
