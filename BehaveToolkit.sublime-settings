@@ -1,0 +1,56 @@
+/*
+  BehaveToolkit default settings
+*/
+
+{
+
+  /*
+    The command used to run behave.
+
+    By default, this is obtained by calling `which behave`
+    (`where behave` on Windows). This setting should be overriden if you're in
+    a virtualenv.
+
+    Example:
+
+    ```
+    "behave_command": ["/Users/mixxorz/.virtualenvs/behave-toolkit/bin/behave"]
+
+    ```
+
+    You can override the setting in your the sublime-project file of your
+    project too. Just add the "behave_command" key inside "settings"
+
+    Example:
+
+    ```
+    {
+      "settings":
+      {
+        "behave_command": ["/Users/mixxorz/.virtualenvs/behave-toolkit/bin/behave"]
+      }
+    }
+
+    ```
+
+    If you're using `behave-django`:
+    https://github.com/mixxorz/behave-django
+
+    ```
+    "behave_command": ["/Users/mixxorz/.virtualenvs/behave-toolkit/bin/python",
+                       "/path/to/manage.py",
+                       "behave"]
+
+    ```
+
+  */
+  "behave_command": [],
+
+  /*
+    Turns debug mode on.
+
+    For use in development.
+  */
+
+  "debug": false
+}
