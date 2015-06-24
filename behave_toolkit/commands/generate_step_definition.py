@@ -130,13 +130,14 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
     def _get_step_file_paths(self, used_steps, unused_steps):
         """Get the path of the step files used by behave."""
 
+        all_steps = used_steps + unused_steps
+
         step_file_paths = set()
 
-        for step in used_steps:
-            step_file_paths.add(step.path)
-
-        for step in unused_steps:
-            step_file_paths.add(step.path)
+        for step in all_steps:
+            # Only list files within the project
+            if step.path[:2] != '..':
+                step_file_paths.add(step.path)
 
         return list(step_file_paths)
 
