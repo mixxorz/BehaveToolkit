@@ -25,7 +25,8 @@ class BstHighlightUndefinedSteps(sublime_plugin.TextCommand, BehaveCommand):
         regions = []
 
         for step in undefined_steps:
-            region = self.view.find('%s %s' % (step.keyword, step.name), 0)
-            regions.append(region)
+            matched_regions = self.view.find_all(
+                '%s %s' % (step.keyword, step.name))
+            regions += matched_regions
 
         self.view.add_regions(self.REGION_NAME, regions, 'comment')

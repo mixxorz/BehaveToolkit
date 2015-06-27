@@ -10,4 +10,7 @@
 }, {
   "caption": "Behave: Run Scenario",
   "command": "bst_run_scenario"
+}, {
+  "caption": "Behave: Reload Modules (debug)",
+  "command": "bst_reload_modules"
 }]

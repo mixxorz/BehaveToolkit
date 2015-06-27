@@ -31,6 +31,9 @@ def parse_used_steps(step_data):
     section_pattern = re.compile('(^@.*?)(UN|$)', re.DOTALL)
     section = re.search(section_pattern, steps_output)
 
+    if section is None:
+        return []
+
     step_pattern = re.compile('(.*?)\n\n', re.DOTALL)
     steps = re.findall(step_pattern, section.group(1))
 
