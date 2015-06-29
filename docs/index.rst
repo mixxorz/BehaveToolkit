@@ -6,7 +6,18 @@
 Welcome to BehaveToolkit's documentation!
 =========================================
 
+BehaveToolkit provides integration between Sublime Text 3 and Behave.
+
+Features:
+---------
+
+- Run specific scenarios
+- Generate step implementations
+- Go to step implementation
+- Highlight unimplemented steps
+
 Contents:
+---------
 
 .. toctree::
    :maxdepth: 2
