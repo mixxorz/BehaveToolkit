@@ -9,7 +9,7 @@
   "command": "bt_go_to_step_function"
 }, {
   "caption": "Behave: Run Scenario",
-  "command": "bt_run_scenario"
+  "command": "bt_run_behave"
 }, {
   "caption": "Behave: Reload Modules (debug)",
   "command": "bt_reload_modules"

@@ -8,7 +8,7 @@ from ..behave_command import BehaveCommand
 from ..utils.scope import is_gherkin
 
 
-class BtRunScenario(sublime_plugin.TextCommand, BehaveCommand):
+class BtRunBehave(sublime_plugin.TextCommand, BehaveCommand):
 
     """Runs the behave scenario under the cursor.
 
