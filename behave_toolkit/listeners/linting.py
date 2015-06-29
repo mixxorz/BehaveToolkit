@@ -1,11 +1,13 @@
 import sublime_plugin
 
+from ..utils.scope import is_gherkin
 
-class BstHighlightUndefinedStepsEventListener(sublime_plugin.EventListener):
+
+class BtHighlightUnimplementedStepsEventListener(sublime_plugin.EventListener):
 
     def highlight(self, view):
-        if 'gherkin' in view.scope_name(0):
-            view.run_command('bst_highlight_undefined_steps')
+        if is_gherkin(view):
+            view.run_command('bt_highlight_unimplemented_steps')
 
     def on_activated(self, view):
         self.highlight(view)

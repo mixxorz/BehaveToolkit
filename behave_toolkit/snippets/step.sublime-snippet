@@ -1,8 +1,8 @@
 <snippet>
     <content><![CDATA[
-@${1:given}(u'${2:step definition}')
+@${1:given}(u'${2:step name}')
 def ${3:step_impl}(context):
-    raise NotImplementedError(u'STEP: ${2:step definition}')
+    raise NotImplementedError(u'STEP: ${2:step name}')
 ]]></content>
     <tabTrigger>step</tabTrigger>
     <scope>source.python</scope>

@@ -1,4 +1,4 @@
-PANEL_NAME = 'bst_behave_output'
+PANEL_NAME = 'bt_behave_output'
 
 
 class OutputPanelMixin(object):

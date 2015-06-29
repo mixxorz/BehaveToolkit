@@ -4,27 +4,24 @@ import sublime_plugin
 from ..behave_command import BehaveCommand
 
 
-class BstHighlightUndefinedSteps(sublime_plugin.TextCommand, BehaveCommand):
+class BtHighlightUnimplementedSteps(sublime_plugin.TextCommand, BehaveCommand):
 
     '''
-    Highlights undefined steps in a feature file.
-
-    This command uses the 'steps.usage' format and parses its output to
-    get the undefined steps.
+    Highlights unimplemented steps in a feature file.
     '''
 
-    REGION_NAME = 'bst.undefined_steps'
+    REGION_NAME = 'bt.unimplemented_steps'
 
     def run(self, edit, **kwargs):
         sublime.set_timeout_async(self.run_async, 0)
 
     def run_async(self):
 
-        undefined_steps = self.get_undefined_steps()
+        unimplemented_steps = self.get_unimplemented_steps()
 
         regions = []
 
-        for step in undefined_steps:
+        for step in unimplemented_steps:
             matched_regions = self.view.find_all(
                 '%s %s' % (step.keyword, step.name))
             regions += matched_regions

@@ -17,10 +17,10 @@ def ${func}(context):
 '''
 
 
-class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
+class BtGenerateStepFunction(sublime_plugin.TextCommand, BehaveCommand):
 
     '''
-    Generates step definition(s) for steps under the cursor(s).
+    Generates step function(s) for steps under the cursor(s).
     '''
 
     def run(self, edit, line_numbers=None):
@@ -42,16 +42,16 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         used_steps = parser.parse_used_steps(step_data)
         unused_steps = parser.parse_unused_steps(step_data)
-        undefined_steps = parser.parse_undefined_steps(step_data)
+        unimplemented_steps = parser.parse_unimplemented_steps(step_data)
 
         # Selected steps is a set of Usages that were under the cursors
-        self.selected_steps = self._get_selected_steps(undefined_steps)
+        self.selected_steps = self._get_selected_steps(unimplemented_steps)
 
         # TODO: Should sort by most recently selected
         self.step_file_paths = self._get_step_file_paths(used_steps,
                                                          unused_steps)
         items = [['Create a new file',
-                  'Creates a new file with the step definition.']]
+                  'Creates a new file with the step function.']]
         items += [[os.path.basename(dir), dir]
                   for dir in self.step_file_paths]
 
@@ -141,7 +141,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
 
         return list(step_file_paths)
 
-    def _get_selected_steps(self, undefined_steps):
+    def _get_selected_steps(self, unimplemented_steps):
         '''
         Get steps under the cursors as a set of namedtuples.
 
@@ -161,7 +161,7 @@ class BstGenerateStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
             # (e.g. features/toolkit.feature:4)
             location = '%s:%d' % (current_file, line_number)
 
-            for usage in undefined_steps:
+            for usage in unimplemented_steps:
 
                 step_location = '%s:%d' % (usage.path, usage.line)
 

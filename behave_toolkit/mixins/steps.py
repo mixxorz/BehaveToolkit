@@ -41,9 +41,9 @@ class StepsMixin(object):
 
         return unused_steps
 
-    def get_undefined_steps(self, project_wide=False):
+    def get_unimplemented_steps(self, project_wide=False):
         """
-        Returns a list of Usages that are undefined.
+        Returns a list of Usages that are unimplemented.
 
         It only returns steps related to the current active file.
 
@@ -54,7 +54,7 @@ class StepsMixin(object):
 
         step_data = self._get_step_data()
 
-        undefined_steps = parser.parse_undefined_steps(step_data)
+        undefined_steps = parser.parse_unimplemented_steps(step_data)
 
         return undefined_steps
 

@@ -93,9 +93,9 @@ def parse_unused_steps(step_data):
     return parsed_steps
 
 
-def parse_undefined_steps(step_data):
+def parse_unimplemented_steps(step_data):
     """
-    Returns a list of Usages that are undefined.
+    Returns a list of Usages that are unimplemented.
 
     Keyword arguments:
         step_data -- str returned by `_get_step_data()`
