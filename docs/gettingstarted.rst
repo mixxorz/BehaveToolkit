@@ -68,7 +68,7 @@ open up the command palette and select
 You're now given a choice of either creating a new file, or an existing step
 file. Let's choose ``steps.py``.
 
-You should now see the generate step definitions pasted inside ``steps.py``.
+You should now see the generated step functions pasted inside ``steps.py``.
 
 .. code-block:: python
 

@@ -51,7 +51,7 @@ class BtGoToStepFunction(sublime_plugin.TextCommand, BehaveCommand):
                                          sublime.ENCODED_POSITION)
         else:
             sublime.status_message(
-                'Definition not found for: "%s"' % query_location)
+                'Step function not found for: "%s"' % query_location)
 
     def is_enabled(self):
         """Enable only for Gherkin"""
