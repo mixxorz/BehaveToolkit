@@ -14,6 +14,7 @@ Contents:
    installation
    gettingstarted
    commands
+   configuration
    troubleshooting
 
 
