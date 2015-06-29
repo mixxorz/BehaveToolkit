@@ -6,8 +6,6 @@ Generate Step Function
 
 Generates step functions for steps under the cursor(s).
 
-- Default Keybinding: ``None``
-
 - Command: ``bt_generate_step_function``
 
 Gives you the ability to quickly generate functions for steps. Place the
@@ -24,8 +22,6 @@ Generate Missing Step Functions
 
 Generates step functions for missing steps.
 
-- Default Keybinding: ``None``
-
 - Command: ``bt_generate_missing_step_functions``
 
 This command is just a convenience command to generate step functions for
@@ -36,8 +32,6 @@ Go To Step Function
 
 Navigate to the step function of the step under the cursor.
 
-- Default Keybinding: ``None``
-
 - Command: ``bt_go_to_step_function``
 
 Does what it says on the tin.
@@ -46,8 +40,6 @@ Run behave
 ----------
 
 Runs behave within the current context.
-
-- Default Keybinding: ``None``
 
 - Command: ``bt_run_behave``
 
