@@ -25,6 +25,7 @@ Contents:
    installation
    gettingstarted
    commands
+   keybindings
    configuration
    troubleshooting
 
