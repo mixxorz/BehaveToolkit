@@ -1,0 +1,14 @@
+Changes since 0.2.0:
+
+  Features and Improvements:
+
+    - Added a Context menu
+    - Added default keybindings
+    - Added comprehensive documentation
+    - Use `shutil.which` instead of calling `which` manually.
+    - Performance Improvements
+
+
+  Bugfixes:
+
+    - Fixed bug where repeated unimplemented steps aren't highlighted.

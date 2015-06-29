@@ -1,13 +1,13 @@
 [{
   "command": "bt_generate_step_function",
-  "keys": ["ctrl+alt+s"]
+  "keys": ["ctrl+alt+shift+s"]
 }, {
   "command": "bt_generate_missing_step_functions",
-  "keys": ["ctrl+alt+f"]
+  "keys": ["ctrl+alt+shift+f"]
 }, {
   "command": "bt_go_to_step_function",
-  "keys": ["ctrl+alt+g"]
+  "keys": ["ctrl+alt+shift+g"]
 }, {
   "command": "bt_run_behave",
-  "keys": ["ctrl+alt+t"]
+  "keys": ["ctrl+alt+shift+t"]
 }]

@@ -15,7 +15,15 @@ Start your topic branch
 $ git checkout -b your-topic-branch
 ```
 
-Make your changes, push to your fork, and [submit a pull request][pr].
+Make your changes (including docs!).
+
+Run the tests.
+
+```bash
+$ python tests.py
+```
+
+Push to your fork, and [submit a pull request][pr].
 
 [pr]: https://github.com/mixxorz/BehaveToolkit/compare/
 

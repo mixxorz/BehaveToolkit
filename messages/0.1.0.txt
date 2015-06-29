@@ -1,4 +1,5 @@
-Changes since 2.1.0:
+Changes since 0.1.0:
 
-  Feature:
-   - Initial release
+  Features and Improvements:
+
+    - Initial release
