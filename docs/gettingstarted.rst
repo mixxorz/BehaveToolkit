@@ -4,9 +4,9 @@ Getting Started
 Setup
 -----
 
-Make sure you have ``behave`` and ``BehaveToolkit`` `installed`_.
+Make sure you have ``behave`` and ``BehaveToolkit`` :doc:`installed <installation>`.
 
-Then, let's start create our project structure
+Let's create our project structure
 
 .. code::
 
@@ -15,15 +15,15 @@ Then, let's start create our project structure
       steps/
       myfeature.feature
 
-Let's open the project directory in sublime:
+Open the project directory in sublime:
 
 .. code::
 
   $ subl myproject/
 
-Let's add a sample scenario:
+Then, let's add a simple scenario.
 
-.. code::
+.. code-block:: gherkin
 
   # myproject/features/myfeature.feature
   Feature: My feature
@@ -37,54 +37,76 @@ Let's add a sample scenario:
 
 Once you hit save, you should see undefined steps get highlighted.
 
-Generate Step Definition
-------------------------
+Generating step implementations
+-------------------------------
 
-Let's try to generate some step definitions. Place the cursor over an undefined
-step, open up the command palette and select
-``Behave: Generate Step Definition``.
-
-screenshot should be here
-
-You should be prompted to create a new file. Let's do that.
-
-screenshot should be here
-
-Let's save this file under ``myproject/features/steps/steps.py``
-
-Once it's saved, when you go back to ``myfeature.feature``, you should see the
-step be cleared.
-
-screenshot here
-
-Generate Missing Step Definitions
----------------------------------
-
-Let's generate the rest of the steps. With the feature file in focus, let's
+Let's try to generate some step implementations. Place the cursor over a step,
 open up the command palette and select
-``Behave: Generate Missing Step Definitions``.
+``Behave: Generate Step Implementation``. Choose "Create a new file". You should
+see a new file open with the following content.
 
-screenshot here
+.. code-block:: python
+
+  from behave import given, when, then
+
+
+  @given(u'the first number is "1"')
+  def the_first_number_is_1(context):
+      raise NotImplementedError(u'STEP: the first number is "1"')
+
+
+Let's save this file under ``myproject/features/steps/steps.py``. When you go
+back to ``myfeature.feature``, you should see the step be cleared.
+
+Generating missing step implementations
+---------------------------------------
+
+Let's generate the rest of the steps. With the feature file open, let's
+open up the command palette and select
+``Behave: Generate Missing Step Implementations``.
 
 You're now given a choice of either creating a new file, or an existing step
 file. Let's choose ``steps.py``.
 
-screenshot here
-
 You should now see the generate step definitions pasted inside ``steps.py``.
 
-screenshot here
+.. code-block:: python
+
+  # myproject/features/steps/steps.py
+  from behave import given, when, then
+
+
+  @given(u'the first number is "1"')
+  def the_first_number_is_1(context):
+      raise NotImplementedError(u'STEP: the first number is "1"')
+
+
+  @then(u'I should get "2"')
+  def i_should_get_2(context):
+      raise NotImplementedError(u'STEP: I should get "2"')
+
+
+  @given(u'the second number is "1"')
+  def the_second_number_is_1(context):
+      raise NotImplementedError(u'STEP: the second number is "1"')
+
+
+  @when(u'I add them together')
+  def i_add_them_together(context):
+      raise NotImplementedError(u'STEP: I add them together')
+
+
 
 Once you hit save and go back to the feature file, you should see that all
 steps are now cleared.
 
-Running the scenario
---------------------
+Running behave
+--------------
 
 In lieu with the spirit of TDD, let's watch the tests fail.
 
-Place the cursor on a scenario, open the command palette and select
-``Behave: Run Scenario``. You should see the test failing.
+Place the cursor over a scenario, open the command palette and select
+``Behave: Run Behave``. You should see the test failing.
 
 .. code::
 
@@ -116,20 +138,10 @@ Place the cursor on a scenario, open the command palette and select
 
 Let's implement the tests.
 
-.. code:: python
+.. code-block:: python
 
   # myproject/features/steps/steps.py
   from behave import given, when, then
-
-
-  @when(u'I add them together')
-  def i_add_them_together(context):
-      context._sum = context._first_num + context._second_num
-
-
-  @then(u'I should get "{num:d}"')
-  def i_should_get_2(context, num):
-      assert num == context._sum
 
 
   @given(u'the first number is "{num:d}"')
@@ -137,11 +149,21 @@ Let's implement the tests.
       context._first_num = num
 
 
+  @then(u'I should get "{num:d}"')
+  def i_should_get_2(context, num):
+      assert num == context._sum
+
+
   @given(u'the second number is "{num:d}"')
   def the_second_number_is_1(context, num):
       context._second_num = num
 
-When you run the scenario, the tests should now pass:
+
+  @when(u'I add them together')
+  def i_add_them_together(context):
+      context._sum = context._first_num + context._second_num
+
+When you run behave, the tests should now pass:
 
 .. code::
 
@@ -158,13 +180,13 @@ When you run the scenario, the tests should now pass:
   4 steps passed, 0 failed, 0 skipped, 0 undefined
   Took 0m0.001s
 
-Specific Scenarios
+Specific scenarios
 ~~~~~~~~~~~~~~~~~~
 
 If you want, you can run only specific scenarios. Let's add a new scenario,
 with different numbers this time.
 
-.. code:: gherkin
+.. code-block:: gherkin
 
   Scenario: Addition between different numbers
     Given the first number is "2"
@@ -172,20 +194,17 @@ with different numbers this time.
      When I add them together
      Then I should get "5"
 
-Place the cursor over the second scenario. When you run the scenario, it will
-only run the scenario under your cursor.
+Place the cursor over the second scenario. When you run behave, it will only
+run the scenario under your cursor.
 
-Running All Scenarios In The Current Feature
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Run all scenarios in the current feature
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you want to run all scenarios in the current feature, just place your cursor
-on the first line of the feature file, and run the scenario
+on the first line of the feature file, and run behave.
 
-Running Everything
-~~~~~~~~~~~~~~~~~~
+Run all features
+~~~~~~~~~~~~~~~~
 
-If you want to run all scenarios in all features, just run the scenario while
-you don't have a feature file open.
-
-
-.. _installed: /installation.html
+If you want to run all scenarios in all features, just run behave without a
+feautre file open.
