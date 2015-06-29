@@ -6,14 +6,14 @@
 Welcome to BehaveToolkit's documentation!
 =========================================
 
-BehaveToolkit provides integration between Sublime Text 3 and Behave.
+BehaveToolkit provides integration between Sublime Text 3 and `Behave`_.
 
 Features:
 ---------
 
 - Run specific scenarios
-- Generate step implementations
-- Go to step implementation
+- Generate step functions
+- Go to step function
 - Highlight unimplemented steps
 
 Contents:
@@ -36,6 +36,6 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
+.. _Behave: https://pythonhosted.org/behave/
