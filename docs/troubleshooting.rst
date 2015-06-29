@@ -15,7 +15,7 @@ run ``behave``. Sure enough, if we run ``behave`` in this folder, it will work.
 **Behave can't be found**
 
 There may be instances where the ``behave`` binary cannot be found on your
-system. In which case, you should follow the :doc:`behavebinary` setup guide.
+system. In which case, you should look at :doc:`configuration`.
 
 **Other issues**
 
