@@ -26,6 +26,7 @@ Contents:
    gettingstarted
    commands
    keybindings
+   snippets
    configuration
    troubleshooting
 
