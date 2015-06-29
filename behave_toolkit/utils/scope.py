@@ -1,16 +1,12 @@
 
 def is_python(view):
-    '''
-    Determine if the given view location is python code
-    '''
+    """Determine if the given view location is python code."""
 
     return _is_in_scope(view, matcher='source.python - string - comment')
 
 
 def is_gherkin(view):
-    '''
-    Determine if the given view location is a feature file
-    '''
+    """Determine if the given view location is a feature file."""
 
     return _is_in_scope(view, matcher='text.gherkin.feature')
 

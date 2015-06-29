@@ -7,10 +7,9 @@ Usage = namedtuple('Usage', ['name', 'path', 'line', 'type', 'keyword'])
 
 
 def parse_used_steps(step_data):
-    """
-    Returns a list of Steps that are being used.
+    """Returns a list of Steps that are being used.
 
-    Keyword arguments:
+    Arguments:
         step_data -- str returned by `_get_step_data()`
 
     """
@@ -70,10 +69,9 @@ def parse_used_steps(step_data):
 
 
 def parse_unused_steps(step_data):
-    """
-    Returns a list of Steps that are unused.
+    """Returns a list of Steps that are unused.
 
-    Keyword arguments:
+    Arguments:
         step_data -- str returned by `_get_step_data()`
 
     """
@@ -94,10 +92,9 @@ def parse_unused_steps(step_data):
 
 
 def parse_unimplemented_steps(step_data):
-    """
-    Returns a list of Usages that are unimplemented.
+    """Returns a list of Usages that are unimplemented.
 
-    Keyword arguments:
+    Arguments:
         step_data -- str returned by `_get_step_data()`
 
     """
@@ -143,8 +140,10 @@ def parse_unimplemented_steps(step_data):
 
 
 def parse_sections(step_data):
-    """
-    Parse out the json and steps information from step_data
+    """Parse out the json and steps information from step_data.
+
+    Arguments:
+        step_data -- str returned by `_get_step_data()`
 
     Returns: steps_output, json_output
     """

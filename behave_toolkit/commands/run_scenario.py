@@ -10,8 +10,7 @@ from ..utils.scope import is_gherkin
 
 class BtRunScenario(sublime_plugin.TextCommand, BehaveCommand):
 
-    '''
-    Runs the behave scenario under the cursor
+    """Runs the behave scenario under the cursor.
 
     How it behaves:
 
@@ -21,7 +20,7 @@ class BtRunScenario(sublime_plugin.TextCommand, BehaveCommand):
           the rules set forth above.
         - If you're not looking at a feature file, run everything (by not
             specifying a file to behave).
-    '''
+    """
 
     def run(self, edit, **kwargs):
         sublime.set_timeout_async(self.run_async, 0)
@@ -30,10 +29,7 @@ class BtRunScenario(sublime_plugin.TextCommand, BehaveCommand):
         self.behave('--no-skipped', *self._get_tests_part(), print_stream=True)
 
     def _get_tests_part(self):
-        '''
-        Returns positional arguments for behave to specify which
-        features/scenarios to run
-        '''
+        """Returns arguments to specify which features/scenarios to run."""
 
         # If we're not looking at a Gherkin file, just run everything
         if not is_gherkin(self.view):

@@ -6,9 +6,7 @@ from ..behave_command import BehaveCommand
 
 class BtHighlightUnimplementedSteps(sublime_plugin.TextCommand, BehaveCommand):
 
-    '''
-    Highlights unimplemented steps in a feature file.
-    '''
+    """Highlights unimplemented steps in a feature file."""
 
     REGION_NAME = 'bt.unimplemented_steps'
 

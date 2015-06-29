@@ -5,6 +5,8 @@ from ..utils.scope import is_gherkin
 
 class BtHighlightUnimplementedStepsEventListener(sublime_plugin.EventListener):
 
+    """Highlights unimplemented steps."""
+
     def highlight(self, view):
         if is_gherkin(view):
             view.run_command('bt_highlight_unimplemented_steps')

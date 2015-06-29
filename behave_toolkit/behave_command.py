@@ -15,8 +15,7 @@ class BehaveCommand(OutputPanelMixin,
     """Base class for all Sublime commands that interact with behave"""
 
     def behave(self, *args, **kwargs):
-        """
-        Runs the behave command with `*args`, returns the output as a str.
+        """Runs the behave command with `*args`, returns the output as a str.
 
         If print_stream=True, the output will be streamed in an output panel.
         """
@@ -29,8 +28,7 @@ class BehaveCommand(OutputPanelMixin,
 
     @property
     def behave_command(self):
-        """
-        The command used to launch behave
+        """The command used to launch behave.
 
         This can be set by modifying the behave_command setting. The setting
         should be a list. If not set, the plugin will try to find the behave
@@ -54,8 +52,7 @@ class BehaveCommand(OutputPanelMixin,
             return [behave]
 
     def _launch_process(self, command, print_stream=False):
-        """
-        Launches a process and returns its output as a string.
+        """Launches a process and returns its output as a string.
 
         If print_stream=True, it will also stream the output to an output
         panel.

@@ -9,19 +9,17 @@ from ..utils.scope import is_gherkin
 from ..utils.text import snake_caseify
 
 
-STEP_SNIPPET = '''
+STEP_SNIPPET = """
 @${type}(u'${name}')
 def ${func}(context):
     raise NotImplementedError(u'STEP: ${name}')
 
-'''
+"""
 
 
 class BtGenerateStepFunction(sublime_plugin.TextCommand, BehaveCommand):
 
-    '''
-    Generates step function(s) for steps under the cursor(s).
-    '''
+    """Generates step function(s) for steps under the cursor(s)."""
 
     def run(self, edit, line_numbers=None):
         sublime.set_timeout_async(
@@ -59,9 +57,7 @@ class BtGenerateStepFunction(sublime_plugin.TextCommand, BehaveCommand):
                                             self.on_select_action)
 
     def on_select_action(self, selected_index):
-        '''
-        Triggers on select from quick panel.
-        '''
+        """Triggers on select from quick panel."""
 
         if selected_index == -1:
             return
@@ -92,10 +88,10 @@ class BtGenerateStepFunction(sublime_plugin.TextCommand, BehaveCommand):
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
 
     def _append_snippet(self, view, new=False):
-        '''
-        Append snippet to the chosen file. If new=True, also set syntax to
-        Python and add behave imports
-        '''
+        """Append snippet to the chosen file.
+
+        If new=True, also add behave imports.
+        """
 
         if view.is_loading():
             sublime.set_timeout(lambda: self._append_snippet(view), 10)
@@ -103,6 +99,7 @@ class BtGenerateStepFunction(sublime_plugin.TextCommand, BehaveCommand):
             snippet_buffer = ''
 
             # If it's a new file, add the behave imports
+            # TODO: Also open the new file as Python
             if new:
                 snippet_buffer += 'from behave import given, when, then\n\n'
             else:
@@ -142,12 +139,11 @@ class BtGenerateStepFunction(sublime_plugin.TextCommand, BehaveCommand):
         return list(step_file_paths)
 
     def _get_selected_steps(self, unimplemented_steps):
-        '''
-        Get steps under the cursors as a set of namedtuples.
+        """Get steps under the cursors as a set of namedtuples.
 
         The tuple is defined as:
         Step = namedtuple('Step', ['step_type', 'name'])
-        '''
+        """
 
         current_root = self.view.window().folders()[0]
         current_file = os.path.relpath(self.view.file_name(), current_root)
@@ -172,7 +168,5 @@ class BtGenerateStepFunction(sublime_plugin.TextCommand, BehaveCommand):
         return selected_steps
 
     def is_enabled(self):
-        '''
-        Enable only for Gherkin
-        '''
+        """Enabled only for Gherkin."""
         return is_gherkin(self.view)

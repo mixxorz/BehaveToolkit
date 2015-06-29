@@ -9,7 +9,8 @@ from ..utils.scope import is_gherkin
 
 
 class BtGoToStepFunction(sublime_plugin.TextCommand, BehaveCommand):
-    """Go to the step function for the step under the cursor"""
+
+    """Go to the step function for the step under the cursor."""
 
     def run(self, edit):
         sublime.set_timeout_async(self.run_async, 0)
@@ -54,5 +55,5 @@ class BtGoToStepFunction(sublime_plugin.TextCommand, BehaveCommand):
                 'Step function not found for: "%s"' % query_location)
 
     def is_enabled(self):
-        """Enable only for Gherkin"""
+        """Enable only for Gherkin."""
         return is_gherkin(self.view)

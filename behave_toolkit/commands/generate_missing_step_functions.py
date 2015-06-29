@@ -8,6 +8,8 @@ from ..utils.scope import is_gherkin
 class BtGenerateMissingStepFunctions(sublime_plugin.TextCommand,
                                      BehaveCommand):
 
+    """Generates step functions for unimplemented steps."""
+
     def run(self, edit):
         sublime.set_timeout_async(self.run_async, 0)
 
@@ -20,7 +22,5 @@ class BtGenerateMissingStepFunctions(sublime_plugin.TextCommand,
             {'line_numbers': [step.line for step in unimplemented_steps]})
 
     def is_enabled(self):
-        '''
-        Enable only for Gherkin
-        '''
+        """Enabled only for Gherkin."""
         return is_gherkin(self.view)

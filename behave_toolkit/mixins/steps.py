@@ -3,17 +3,14 @@ from ..utils import parser
 
 class StepsMixin(object):
 
-    """
-    Provies methods for dealing with steps
-    """
+    """Provies methods for dealing with steps."""
 
     def get_used_steps(self, project_wide=False):
-        """
-        Returns a list of Steps that are being used.
+        """Returns a list of Steps that are being used.
 
         It only returns steps related to the current active file.
 
-        Keyword arguments:
+        Arguments:
             project_wide -- If True, will return project wide step data.
 
         """
@@ -25,12 +22,11 @@ class StepsMixin(object):
         return used_steps
 
     def get_unused_steps(self, project_wide=False):
-        """
-        Returns a list of Steps that are unused.
+        """Returns a list of Steps that are unused.
 
         It only returns steps related to the current active file.
 
-        Keyword arguments:
+        Arguments:
             project_wide -- If True, will return project wide step data.
 
         """
@@ -42,12 +38,11 @@ class StepsMixin(object):
         return unused_steps
 
     def get_unimplemented_steps(self, project_wide=False):
-        """
-        Returns a list of Usages that are unimplemented.
+        """Returns a list of Usages that are unimplemented.
 
         It only returns steps related to the current active file.
 
-        Keyword arguments:
+        Arguments:
             project_wide -- If True, will return project wide step data.
 
         """
@@ -59,15 +54,14 @@ class StepsMixin(object):
         return undefined_steps
 
     def _get_step_data(self, project_wide=False):
-        """
-        Calls behave and returns its output.
+        """Calls behave and returns its output.
 
         Calls behave with both the json formatter and the steps.usage
         formatter. Suprisingly, it returns both formats.
 
         It only returns steps related to the current active file.
 
-        Keyword arguments:
+        Arguments:
             project_wide -- If True, will return project wide step data.
 
         Returns: step_data (str)
