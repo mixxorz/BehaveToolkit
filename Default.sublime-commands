@@ -1,16 +1,16 @@
 [{
-  "caption": "Behave: Generate Missing Step Definitions",
-  "command": "bst_generate_missing_step_definitions"
+  "caption": "Behave: Generate Missing Step Functions",
+  "command": "bt_generate_missing_step_functions"
 }, {
-  "caption": "Behave: Generate Step Definition",
-  "command": "bst_generate_step_definition"
+  "caption": "Behave: Generate Step Function",
+  "command": "bt_generate_step_function"
 }, {
-  "caption": "Behave: Go To Step Definition",
-  "command": "bst_go_to_step_definition"
+  "caption": "Behave: Go To Step Function",
+  "command": "bt_go_to_step_function"
 }, {
   "caption": "Behave: Run Scenario",
-  "command": "bst_run_scenario"
+  "command": "bt_run_scenario"
 }, {
   "caption": "Behave: Reload Modules (debug)",
-  "command": "bst_reload_modules"
+  "command": "bt_reload_modules"
 }]

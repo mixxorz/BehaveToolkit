@@ -1,15 +1,15 @@
-from .debug import BstReloadModules
-from .generate_missing_step_definitions import BstGenerateMissingStepDefinitions
-from .generate_step_definition import BstGenerateStepDefinition
-from .go_to_step_definition import BstGoToStepDefinition
-from .highlight_undefined_steps import BstHighlightUndefinedSteps
-from .run_scenario import BstRunScenario
+from .debug import BtReloadModules
+from .generate_missing_step_functions import BtGenerateMissingStepFunctions
+from .generate_step_function import BtGenerateStepFunction
+from .go_to_step_function import BtGoToStepFunction
+from .highlight_unimplemented_steps import BtHighlightUnimplementedSteps
+from .run_scenario import BtRunScenario
 
 _all__ = [
-    'BstGenerateMissingStepDefinitions',
-    'BstGenerateStepDefinition',
-    'BstGoToStepDefinition',
-    'BstHighlightUndefinedSteps',
-    'BstReloadModules',
-    'BstRunScenario'
+    'BtGenerateMissingStepFunctions',
+    'BtGenerateStepFunction',
+    'BtGoToStepFunction',
+    'BtHighlightUnimplementedSteps',
+    'BtReloadModules',
+    'BtRunScenario'
 ]

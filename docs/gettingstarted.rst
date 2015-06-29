@@ -37,12 +37,12 @@ Then, let's add a simple scenario.
 
 Once you hit save, you should see undefined steps get highlighted.
 
-Generating step implementations
+Generating step functions
 -------------------------------
 
-Let's try to generate some step implementations. Place the cursor over a step,
+Let's try to generate some step functions. Place the cursor over a step,
 open up the command palette and select
-``Behave: Generate Step Implementation``. Choose "Create a new file". You should
+``Behave: Generate Step Function``. Choose "Create a new file". You should
 see a new file open with the following content.
 
 .. code-block:: python
@@ -58,17 +58,17 @@ see a new file open with the following content.
 Let's save this file under ``myproject/features/steps/steps.py``. When you go
 back to ``myfeature.feature``, you should see the step be cleared.
 
-Generating missing step implementations
+Generating missing step functions
 ---------------------------------------
 
 Let's generate the rest of the steps. With the feature file open, let's
 open up the command palette and select
-``Behave: Generate Missing Step Implementations``.
+``Behave: Generate Missing Step Functions``.
 
 You're now given a choice of either creating a new file, or an existing step
 file. Let's choose ``steps.py``.
 
-You should now see the generate step definitions pasted inside ``steps.py``.
+You should now see the generated step functions pasted inside ``steps.py``.
 
 .. code-block:: python
 

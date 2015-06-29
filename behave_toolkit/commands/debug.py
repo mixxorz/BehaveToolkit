@@ -8,7 +8,7 @@ import sublime
 import sublime_plugin
 
 
-class BstReloadModules(sublime_plugin.WindowCommand):
+class BtReloadModules(sublime_plugin.WindowCommand):
 
     """Reloads all BehaveToolkit modules"""
 

@@ -1,5 +1,5 @@
-from .linting import BstHighlightUndefinedStepsEventListener
+from .linting import BtHighlightUnimplementedStepsEventListener
 
 __all__ = [
-    'BstHighlightUndefinedStepsEventListener'
+    'BtHighlightUnimplementedStepsEventListener'
 ]

@@ -8,8 +8,8 @@ from ..utils import parser
 from ..utils.scope import is_gherkin
 
 
-class BstGoToStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
-    """Go to step definition for the step under the cursor"""
+class BtGoToStepFunction(sublime_plugin.TextCommand, BehaveCommand):
+    """Go to the step function for the step under the cursor"""
 
     def run(self, edit):
         sublime.set_timeout_async(self.run_async, 0)
@@ -51,7 +51,7 @@ class BstGoToStepDefinition(sublime_plugin.TextCommand, BehaveCommand):
                                          sublime.ENCODED_POSITION)
         else:
             sublime.status_message(
-                'Definition not found for: "%s"' % query_location)
+                'Step function not found for: "%s"' % query_location)
 
     def is_enabled(self):
         """Enable only for Gherkin"""
