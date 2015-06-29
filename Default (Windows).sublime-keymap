@@ -1,0 +1,13 @@
+[{
+  "command": "bt_generate_step_function",
+  "keys": ["ctrl+alt+s"]
+}, {
+  "command": "bt_generate_missing_step_functions",
+  "keys": ["ctrl+alt+f"]
+}, {
+  "command": "bt_go_to_step_function",
+  "keys": ["ctrl+alt+g"]
+}, {
+  "command": "bt_run_behave",
+  "keys": ["ctrl+alt+t"]
+}]
