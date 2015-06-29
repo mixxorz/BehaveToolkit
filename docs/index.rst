@@ -13,6 +13,7 @@ Contents:
 
    installation
    gettingstarted
+   commands
 
 
 
