@@ -1,4 +1,5 @@
 import re
+from shutil import which
 import subprocess
 import threading
 
@@ -32,20 +33,25 @@ class BehaveCommand(OutputPanelMixin,
         The command used to launch behave
 
         This can be set by modifying the behave_command setting. The setting
-        should be a list. If not set, the plugin uses value of `which behave`.
+        should be a list. If not set, the plugin will try to find the behave
+        executable in the environment.
         """
-        behave = self.view.settings().get('behave_command')
+        settings = sublime.load_settings('BehaveToolkit.sublime-settings')
+        behave = self.view.settings().get('behave_command',
+                                          settings.get('behave_command', None))
 
+        # If behave is configured
         if behave:
             return behave
-        else:
-            # Find the behave executable
-            which = 'which'
-            if sublime.platform() == 'windows':
-                which = 'where'
 
-            out = self._launch_process([which, 'behave'])
-            return [out.strip()]
+        # If not, try to find it
+        else:
+            behave = which('behave')
+            if not behave:
+                sublime.status_message('behave could not be found. '
+                                       'Is it installed?')
+                raise Exception('behave could not be found. Is it installed?')
+            return [behave]
 
     def _launch_process(self, command, print_stream=False):
         """
