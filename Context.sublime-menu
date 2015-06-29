@@ -1,0 +1,11 @@
+[{
+    "caption": "BehaveToolkit",
+    "id": "bt_context",
+    "children": [{
+        "command": "bt_go_to_step_function",
+        "caption": "Goto Step Function"
+    }, {
+        "command": "bt_generate_step_function",
+        "caption": "Generate Step Function"
+    }],
+}]
