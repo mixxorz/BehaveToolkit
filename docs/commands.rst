@@ -31,6 +31,17 @@ Generates step implementations for missing steps.
 This command is just a convenience command to generate step implementations for
 all unimplemented steps in the open feature file.
 
+Go To Step Implementation
+-------------------------
+
+Navigate to the step implementation of the step under the cursor.
+
+- Default Keybinding: ``None``
+
+- Command: ``bt_go_to_step_implementation``
+
+Does what it says on the tin.
+
 Run behave
 ----------
 
